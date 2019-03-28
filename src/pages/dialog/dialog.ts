@@ -129,7 +129,7 @@ export class DialogPage {
             /*this.texts = data.json().texts;*/
             this.adminMessagesCount = data.json().adminMessagesCount;
             this.messages = data.json().chat.items;
-            console.log(this.adminMessagesCount);
+            console.log('test chat', data.json());
             this.countNewMess = data.json().chat.newMess;
             this.alert = data.json().blacklist != '' ? data.json().blacklist : '';
             this.contactCurrentReadMessagesNumber = data.json().contactCurrentReadMessagesNumber;
@@ -429,6 +429,9 @@ export class DialogPage {
 
         //alert(this.api.url + '/user/chat/' + this.reciver_id + '/' + this.contactCurrentReadMessagesNumber + '/' + this.countNewMess + '/refresh');
 
+        console.log(this.contactCurrentReadMessagesNumber, this.countNewMess);
+
+
         this.http.get(this.api.url + '/user/chat/' + this.reciver_id + '/' + this.contactCurrentReadMessagesNumber + '/' + this.countNewMess + '/refresh', this.api.setHeaders(true)).subscribe(data => {
             this.contactCurrentReadMessagesNumber = data.json().contactCurrentReadMessagesNumber;
             if (data.json().chat) {
@@ -465,6 +468,7 @@ export class DialogPage {
         });
     }
 
+    /*
     sandReadMessage() {
         var params = JSON.stringify({
             message: 'ok-1990234'
@@ -495,7 +499,7 @@ export class DialogPage {
                 }
             });
         }
-    }
+    }*/
 
     ionViewWillLeave() {
         if(this.mediaobject){

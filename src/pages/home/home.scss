@@ -1,6 +1,13 @@
 page-home {
   $app-direction: rtl;
 
+  #cap {
+    background: url(../assets/img/icons/cap.png) center no-repeat;
+    width: 27px;
+    height: 20px;
+    background-size: contain;
+  }
+
   .sorting {
     width: 320px;
     right: 50%;
@@ -265,10 +272,15 @@ ion-card {
   background-size: contain;
 }
 
-#add-green {
+#add-green,  #remove-green {
   background: url(../assets/img/icons/fav-red.png) center no-repeat;
   width: 20px;
   height: 20px;
+  background-size: contain;
+}
+
+#remove-green {
+  background: url(../assets/img/icons/fav-remove.png) center no-repeat;
   background-size: contain;
 }
 

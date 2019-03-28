@@ -60,25 +60,37 @@ export class FullScreenProfilePage {
 
     addFavorites(user) {
 
-        console.log(JSON.stringify(user));
+        let url;
+        let params;
 
         if (user.isAddFavorite == false) {
             user.isAddFavorite = true;
 
-
-            let params = JSON.stringify({
+                params = JSON.stringify({
                 list: 'Favorite'
             });
 
-            this.http.post(this.api.url + '/user/managelists/favi/1/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-                let toast = this.toastCtrl.create({
-                    message: data.json().success,
-                    duration: 3000
-                });
+                url = this.api.url + '/user/managelists/favi/1/' + user.id;
 
-                toast.present();
+        } else {
+            user.isAddFavorite = false;
+
+                params = JSON.stringify({
+                list: 'Unfavorite'
             });
+
+            let url = this.api.url + '/user/managelists/favi/0/' + user.id;
         }
+
+        this.http.post(url, params, this.api.setHeaders(true)).subscribe(data => {
+            let toast = this.toastCtrl.create({
+                message: data.json().success,
+                duration: 3000
+            });
+
+            toast.present();
+            //this.events.publish('statistics:updated');
+        });
     }
 
     addLike(user) {

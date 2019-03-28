@@ -110,42 +110,43 @@ export class HomePage {
     }
 
     addLike(user) {
+        if(user.isLike == '0') {
+            let alert = this.alertCtrl.create({
+                title: 'האם את בטוחה?',
+                buttons: [
+                    {
+                        text: 'לֹא',
+                        role: 'cancel'
+                    },
+                    {
+                        text: 'כן',
+                        handler: data => {
+                            if (user.isLike == false) {
 
-        let alert = this.alertCtrl.create({
-            title: 'האם את בטוחה?',
-            buttons: [
-                {
-                    text: 'לֹא',
-                    role: 'cancel'
-                },
-                {
-                    text: 'כן',
-                    handler: data => {
-                        if (user.isLike == false) {
+                                user.isLike = true;
 
-                            user.isLike = true;
+                                let toast = this.toastCtrl.create({
+                                    message: ' עשית לייק ל' + user.userNick,
+                                    duration: 5000
+                                });
 
-                            let toast = this.toastCtrl.create({
-                                message: ' עשית לייק ל' + user.userNick,
-                                duration: 5000
-                            });
+                                toast.present();
 
-                            toast.present();
+                                let params = JSON.stringify({
+                                    toUser: user.id,
+                                });
 
-                            let params = JSON.stringify({
-                                toUser: user.id,
-                            });
-
-                            this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-                            }, err => {
-                                console.log("Oops!");
-                            });
+                                this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+                                }, err => {
+                                    console.log("Oops!");
+                                });
+                            }
                         }
                     }
-                }
-            ]
-        });
-        alert.present();
+                ]
+            });
+            alert.present();
+        }
     }
 
     block(user, bool) {
@@ -215,6 +216,41 @@ export class HomePage {
 
     addFavorites(user) {
 
+        let url;
+        let params;
+
+        if (user.isFav == false) {
+            user.isFav = true;
+
+             params = JSON.stringify({
+                list: 'Favorite'
+            });
+
+             url = this.api.url + '/user/managelists/favi/1/' + user.id;
+
+        } else {
+            user.isFav = false;
+
+                params = JSON.stringify({
+                list: 'Unfavorite'
+            });
+
+                 url = this.api.url + '/user/managelists/favi/0/' + user.id;
+        }
+
+        this.http.post(url, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+            let toast = this.toastCtrl.create({
+                message: data.json().success,
+                duration: 3000
+            });
+
+            toast.present();
+            this.events.publish('statistics:updated');
+        });
+    }
+
+   /* addFavorites(user) {
+
         if (user.isFav == false) {
             user.isFav = true;
 
@@ -233,7 +269,7 @@ export class HomePage {
                 this.events.publish('statistics:updated');
             });
         }
-    }
+    }*/
 
     sortBy() {
 

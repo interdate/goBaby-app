@@ -56,6 +56,7 @@ export class ArenaPage {
     this.http.get(api.url + '/users/forLikes/'+user_id+'/0', api.setHeaders(true)).subscribe(data => {
     loading.dismiss();
     this.users = data.json().users.items;
+        console.log(this.users);
     this.texts = data.json().texts;
 
 

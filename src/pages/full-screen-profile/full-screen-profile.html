@@ -20,14 +20,16 @@
     <div *ngIf="user.isAddFavorite == '0' && user.id " tappable (click)="addFavorites(user)"
          class="favorite-profile-btn">
       <img src="assets/img/icons/padd.png"></div>
-    <div *ngIf="user.isAddFavorite == '1'" class="disabled favorite-profile-btn"><img src="assets/img/icons/padd.png"></div>
+    <div *ngIf="user?.isAddFavorite == '1'" (click)="addFavorites(user)" class="disabled favorite-profile-btn"><img
+            src="assets/img/icons/cap.png"></div>
   </div>
+
   <div class="close-warp" tappable (click)="goBack()">
     <div class="close"><img alt="close" src="assets/img/icons/psclose.png"></div>
   </div>
   <ion-slides initialSlide="{{i}}" [loop]="(user.photos.length > 1)">
     <ion-slide *ngFor="let usr of user.photos">
-      <img src="{{ usr.large }}">
+      <img src="{{ usr.url }}">
     </ion-slide>
 
   </ion-slides>

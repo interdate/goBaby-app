@@ -3,9 +3,9 @@ import {ActionSheetController, Content, NavController, NavParams, Platform} from
 import {ApiQuery} from "../../library/api-query";
 import * as $ from "jquery";
 import {Http} from "@angular/http";
-
 import {HomePage} from "../home/home";
 import {Page} from "../page/page";
+import {SelectPage} from "../select/select";
 import {ChangePhotosPage} from "../change-photos/change-photos";
 declare var setSelect2;
 
@@ -30,6 +30,7 @@ export class RegisterPage {
         api.storage.get('status').then((val) => {
             this.login = val;
             this.user = this.navParams.get('user');
+            console.log(this.user);
             this.sendForm();
         });
     }
@@ -40,22 +41,8 @@ export class RegisterPage {
     }
 
     sendForm() {
-        this.api.showLoad();
+        //this.api.showLoad();
         var header = this.api.setHeaders((this.login == 'login') ? true : false);
-        if (typeof this.user != 'undefined') {
-            this.form.fields.forEach(field => {
-                if (field.type == 'select') {
-                    this.user[field.name] = $('#' + field.name).val();
-                }
-                //console.log(field);
-                if (field.type == 'selects') {
-                    field.sel.forEach(select => {
-                        this.user[select.name] = $('#' + select.name).val();
-                    });
-                }
-            });
-        }
-
 
         this.http.post(this.api.url + '/user/register', this.user, header).subscribe(
             data => {
@@ -70,11 +57,23 @@ export class RegisterPage {
                 if (this.user.step == 4) {
                     this.api.setHeaders(true, this.user.userNick, this.user.userPass);
                     this.login = 'login';
+                    this.api.storage.set('userdata', {
+                        username: this.user.userNick,
+                        password: this.user.userPass,
+                        user_id: this.user.userId,
+                        status: 'login',
+                        user_photo: 'https://www.shedate.co.il/images/users/small/0.jpg'
+                    });
                     this.api.storage.set('status', 'login');
                     this.api.storage.set('user_id', this.user.userId);
                     this.api.storage.set('username', this.user.userNick);
-                    this.api.storage.set('fingerAuthLogin', this.user.userNick);
                     this.api.storage.set('password', this.user.userPass);
+                    let data = {
+                        status: 'init',
+                        username: this.user.userNick,
+                        password: this.user.userPass
+                    };
+                    this.api.storage.set('fingerAuth', data);
                     //alert(JSON.stringify(this.user.photos));
                     let that = this;
                     setTimeout(function () {
@@ -83,25 +82,24 @@ export class RegisterPage {
                     this.api.storage.get('deviceToken').then((val) => {
                         this.api.sendPhoneId(val);
                     });
-                    this.navCtrl.push(ChangePhotosPage, {new_user: this.form.submit});
+                    this.navCtrl.push(ChangePhotosPage, {});
 
                 } else {
                     this.api.hideLoad();
 
                     if (this.user.step == 2 && !this.user.register) {
                         this.api.storage.set('username', this.user.userNick);
-                        this.api.storage.set('fingerAuthLogin', this.user.userNick);
                         this.api.setHeaders(true, this.user.userNick);
-                    }else if(this.user.step == 2 && this.user.register) {
+                    } else if (this.user.step == 2 && this.user.register) {
                         this.api.storage.set('new_user', true);
                     }
                     this.form.fields.forEach(field => {
-                        if (field.type == 'select' /*&& field.name != 'userCity' && field.name != 'countryOfOriginId'*/) {
-                            this.select2(field, null);
+                        if (field.type == 'select' /*&& (field.name == 'userCity' || field.name == 'countryOfOriginId')*/) {
+                            //this.select2(field, null);
                         }
                         if (field.type == 'selects') {
                             field.sel.forEach(select => {
-                                this.select2(select, select.choices[0].label);
+                                //this.select2(select, select.choices[0].label);
                             });
                         }
                     });
@@ -113,6 +111,34 @@ export class RegisterPage {
                 this.api.hideLoad();
             }
         );
+    }
+
+
+    openSelect(field, index) {
+        if(typeof field == 'undefined'){
+            field = false;
+        }
+
+        let profileModal = this.api.modalCtrl.create(SelectPage, {data: field});
+        profileModal.present();
+
+        profileModal.onDidDismiss(data => {
+            console.log(data);
+            if (data) {
+                let choosedVal = data.val.toString();
+                this.user[field.name] = choosedVal;
+                if(field.name.indexOf('userBirthday') == -1) {
+                    this.form.fields[index]['valLabel'] = data.label.toString();
+                    this.form.fields[index]['val'] = choosedVal;
+                }else{
+                    for(let i=0; i<3; i++){
+                        if(field.name == this.form.fields[index]['sel'][i].name){
+                            this.form.fields[index]['sel'][i]['valLabel'] = data.label;
+                        }
+                    }
+                }
+            }
+        });
     }
 
     select2(field, placeholder) {
@@ -155,17 +181,17 @@ export class RegisterPage {
         $('#back').show();
         this.api.storage.get('status').then((val) => {
             this.login = val;
-            if(val != 'login') {
+            if (val != 'login') {
                 $('.footerMenu').hide();
             }
         });
 
         setTimeout(function () {
-            if($('div').hasClass('footerMenu')) {
-            }else{
+            if ($('div').hasClass('footerMenu')) {
+            } else {
                 $('#register .fixed-content,#register .scroll-content').css({'margin-bottom': '0'});
             }
-        },100);
+        }, 100);
 
     }
 

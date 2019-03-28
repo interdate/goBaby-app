@@ -4,7 +4,7 @@ import {HomePage} from "../home/home";
 import {ApiQuery} from "../../library/api-query";
 import {Storage} from "@ionic/storage";
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
-import {AndroidFingerprintAuth} from "@ionic-native/android-fingerprint-auth";
+import {FingerprintAIO} from "@ionic-native/fingerprint-aio";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 import {RegisterPage} from "../register/register";
@@ -39,10 +39,10 @@ export class LoginPage {
                 public storage: Storage,
                 public loadingCtrl: LoadingController,
                 public toastCtrl: ToastController,
-                private androidFingerprintAuth: AndroidFingerprintAuth,
-                private platform: Platform,) {
+                private faio: FingerprintAIO,
+                private platform: Platform) {
 
-        this.http.get(api.url + '/user/form/login/', api.setHeaders(false)).subscribe(data => {
+        this.http.get(api.url + '/user/login/', api.setHeaders(false)).subscribe(data => {
             this.form = data.json();
             this.storage.get('username').then((username) => {
                 this.form.login.username.value = username;
@@ -53,15 +53,13 @@ export class LoginPage {
              this.storage.remove('enableFingerAuth');
              this.storage.remove('disableFingerAuthInit');*/
 
-            let that = this;
-            setTimeout(function () {
-                that.storage.get('fingerAuth').then((val) => {
-                    //alert(val);
-                    if (val) {
-                        that.fingerAuth = val;
+            this.storage.get('fingerAuth').then((val) => {
+                this.faio.isAvailable().then(result =>{
+                    if(val.status){
+                        this.fingerAuth = true;
                     }
                 });
-            }, 10);
+            });
 
         });
 
@@ -126,111 +124,26 @@ export class LoginPage {
         return this.header;
     }
 
-    fingerAuthentication(data) {
-
-        if (typeof data.status == 'undefined') {
-            data = {status: 'login', username: this.form.login.username.value}
-        }
-
-        //alert('test: '+ JSON.stringify(data));
-
-        this.storage.get('enableFingerAuth').then((enableFingerAuth) => {
-
-            if (enableFingerAuth && enableFingerAuth == 1) {
-                this.enableFingerAuth = 1;
-            } else {
-                this.enableFingerAuth = 0;
-            }
-        });
-
-        this.storage.get('disableFingerAuthInit').then((disableFingerAuthInit) => {
-
-            if (disableFingerAuthInit && disableFingerAuthInit == 1) {
-                this.disableFingerAuthInit = 1;
-            } else {
-                this.disableFingerAuthInit = 0;
-            }
-        });
-
-        this.storage.get('fingerAuth').then((val) => {
-
-            if ((data.status == 'init' && !val && this.disableFingerAuthInit == 0) || (this.enableFingerAuth == 1 && !val )) {
-
-                this.androidFingerprintAuth.isAvailable()
-                    .then((result)=> {
-
-                        if (result.isAvailable) {
-
-                            //alert(JSON.stringify(data));
-                            // it is available
-                            this.androidFingerprintAuth.encrypt({
-                                clientId: 'com.interdate.shedate',
-                                username: data.username,
-                                password: data.password,
-                                dialogTitle: 'כניסה לשידייט באמצעות טביעת אצבע',
-                                dialogMessage: 'אשרי טביעת אצבע כדי להמשיך',
-                                dialogHint: 'חיישן מגע'
-                            })
-                                .then(result => {
-
-                                    this.storage.set('fingerAuthLogin', data.username);
-                                    if (result.withFingerprint) {
-                                        //alert('Successfully encrypted credentials.');
-                                        //alert('Encrypted credentials: ' + result.token);
-                                        this.storage.set('fingerAuth', result.token);
-
-                                    } else if (result.withBackup) {
-                                        //alert('Successfully authenticated with backup password!');
-                                        //alert('Encrypted credentials: ' + result.token);
-                                        this.storage.set('fingerAuth', result.token);
-
-                                    } else alert('Didn\'t authenticate!');
-
-                                })
-                                .catch(error => {
-                                    //alert(JSON.stringify(error))
-                                    this.storage.set('disableFingerAuthInit', '1');
-                                });
-
-                        } else {
-                            // fingerprint auth isn't available
+    fingerAuthentication() {
+        this.faio.show({
+            clientId: 'com.interdate.shedate',
+            clientSecret: 'password', //Only necessary for Android
+        })
+            .then((result: any) => {
+                if (result){
+                    console.log(result);
+                    this.storage.get('fingerAuth').then((val) => {
+                        if(val.status){
+                            this.form.login.username.value = val.username;
+                            this.form.login.password.value = val.password;
+                            this.formSubmit();
                         }
-                    })
-                    .catch(error => console.error(error));
-            } else if (val && data.status == 'login') {
-                this.androidFingerprintAuth.isAvailable()
-                    .then((result)=> {
-                        if (result.isAvailable) {
-                            this.androidFingerprintAuth.decrypt({
-                                clientId: 'com.interdate.shedate',
-                                //username: data.username,
-                                token: val,
-                                dialogTitle: 'כניסה לשידייט באמצעות טביעת אצבע',
-                                locale: "hb",
-                                dialogMessage: 'אשרי טביעת אצבע כדי להמשיך',
-                                dialogHint: 'חיישן מגע'
-                            }).then(result => {
-                                //alert('token: '+ val + 'decrypt:'+ JSON.stringify(result));
-                                //alert('password'+ JSON.stringify(result.password));
-                                //alert(JSON.stringify(result));
 
-                                this.storage.get('fingerAuthLogin').then((val) => {
-                                    this.user.name = val;
-                                    this.form.login.password.value = result.password;
-                                    this.formSubmit();
-                                });
-
-                            }).catch(error => {
-                                this.storage.remove('fingerAuth');
-                                this.storage.remove('enableFingerAuth');
-                                this.storage.remove('disableFingerAuthInit');
-                                this.storage.remove('fingerAuthLogin');
-                                this.navCtrl.popToRoot();
-                            });
-                        }
                     });
-            }
-        });
+
+                }
+            })
+            .catch((error: any) => console.log(error));
     }
 
     validate(response) {
@@ -250,7 +163,8 @@ export class LoginPage {
                 username: this.form.login.username.value,
                 password: this.form.login.password.value
             };
-            this.fingerAuthentication(data);
+
+            this.storage.set('fingerAuth', data);
 
             this.storage.set('user_photo', response.photo);
             this.navCtrl.setRoot(HomePage, {

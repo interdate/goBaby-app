@@ -63,9 +63,8 @@ export class ProfilePage {
         var user = navParams.get('user');
 
         if (user) {
-            if ((user.photo || user.imageUrl) && !user.photos) {
-                let url = (user.photo) ? user.photo : user.imageUrl;
-                user.photos = [{url: url,large: url.replace('h_600,w_600','h_800,w_800')}];
+            if( user && typeof user.photoLarge != 'undefined'){
+                user.photos = [{url:user.photoLarge}];
             }
             this.user = user;
             this.photos = this.user.photos;
@@ -73,6 +72,7 @@ export class ProfilePage {
 
             this.http.get(api.url + '/user/profile/' + this.user.id, api.setHeaders(true)).subscribe(data => {
                 this.user = data.json();
+                console.log(this.user);
                 if (this.photos.length < this.user.photos.length) {
                     for (let i = 0; i < this.user.photos.length; i++) {
                         if (i > 0) {
@@ -138,22 +138,38 @@ export class ProfilePage {
 
     addFavorites(user) {
 
+        let url;
+
+        let params;
+
         if (user.isAddFavorite == false) {
             user.isAddFavorite = true;
 
-            let params = JSON.stringify({
+            params = JSON.stringify({
                 list: 'Favorite'
             });
 
-            this.http.post(this.api.url + '/user/managelists/favi/1/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-                let toast = this.toastCtrl.create({
-                    message: data.json().success,
-                    duration: 3000
-                });
+            url = this.api.url + '/user/managelists/favi/1/' + user.id;
 
-                toast.present();
+        } else {
+            user.isAddFavorite = false;
+
+            params = JSON.stringify({
+                list: 'Unfavorite'
             });
+
+            url = this.api.url + '/user/managelists/favi/0/' + user.id;
         }
+
+        this.http.post(url, params, this.api.setHeaders(true)).subscribe(data => {
+            let toast = this.toastCtrl.create({
+                message: data.json().success,
+                duration: 3000
+            });
+
+            toast.present();
+            //this.events.publish('statistics:updated');
+        });
     }
 
     blockSubmit() {
@@ -222,7 +238,7 @@ export class ProfilePage {
 
     fullPagePhotos(i) {
 
-        if (this.user.photos[0].url != 'http://www.shedate.co.il/images/users/small/0.jpg') {
+        if (this.user.photos[0].url != 'http://www.gobaby.co.il/images/users/small/0.jpg') {
             this.navCtrl.push('FullScreenProfilePage', {
                 user: this.user,
                 i: i

@@ -13,7 +13,7 @@ page-login {
   .bg-image {
     background: url(../assets/img/bg_page_login.jpg);
     background-size: 100%;
-    background-position: center -50px;
+    background-position: bottom;
     background-repeat: no-repeat;
     background-color: #0f1526;
   }
@@ -39,9 +39,13 @@ page-login {
     color: #000;
   }
 
+  input.text-input-md, input.text-input-ios {
+    background: #ddd;
+  }
+
   ion-footer {
     background-color: transparent;
-    bottom: 20px;
+    top: 20px;
   }
 
   @media (max-width: 320px) {

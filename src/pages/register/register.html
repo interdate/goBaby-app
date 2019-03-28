@@ -1,6 +1,5 @@
 <!--
   Generated template for the RegisterPage page.
-
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
@@ -13,20 +12,20 @@
 </ion-header>
 
 
-<ion-content id="register" padding>
+<ion-content  id="register"  padding>
     <div class="stepnum">
         <ul>
-            <li (click)="getStep(0)"
+            <li tappable (click)="getStep(0)"
                 [ngClass]="{'active' : (form?.step && form?.step?.val == 1), 'pass': (form?.step && form?.step?.val != 1)}"
                 class="rgt"><span>1</span>
                 <!--<p>{{ form?.text?.title1 }}</p>-->
             </li>
-            <li (click)="getStep(1)"
+            <li tappable (click)="getStep(1)"
                 [ngClass]="{'active' : (form?.step && form?.step?.val == 2), 'pass': (form?.step && form?.step?.val == 3)}">
                 <span>2</span>
                 <!--<p>{{ form?.text?.title2 }}</p>-->
             </li>
-            <li (click)="getStep(2)" [ngClass]="{'active' : (form?.step && form?.step?.val == 3)}" class="lft">
+            <li tappable (click)="getStep(2)" [ngClass]="{'active' : (form?.step && form?.step?.val == 3)}" class="lft">
                 <span>3</span>
                 <!--<p>{{ form?.text?.title3 }}</p>-->
             </li>
@@ -41,7 +40,7 @@
             <div *ngIf="form?.text?.html" id="html">{{ setHtml('html',form?.text?.html) }}</div>
         </div>
         <form>
-            <div *ngFor="let field of form?.fields">
+            <div *ngFor="let field of form?.fields; let i = index" [attr.data-index]="i">
 
                 <div class="field" *ngIf="field.type == 'submit'" style="text-align: center;">
                     <button color="danger" ion-button full type="submit" (click)="sendForm();"
@@ -62,35 +61,38 @@
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
                 </div>
 
-                <div class="field input"
+                <div tappable (click)="openSelect(field,i)" class="field input"
                      *ngIf="field.type == 'select' && field.name != 'userCity' && field.name != 'countryOfOriginId'"
                      [ngClass]="{'error': errors[field.name]}">
                     <div class="placeholder">{{ field.label }}</div>
                     <!--[ngClass]="{'yellow-bg': err.experienceId0.errors && err.experienceId0.errors?.length != 0 }"-->
                     <ion-item>
                         <!--interface="popover"-->
-                        <select class="select2 select" name="{{ field.name }}"
+                        <div class="select-value">{{field.valLabel}}</div>
+                        <!--<select class="select2 select" name="{{ field.name }}"
                                 [(ngModel)]="user[field.name]" id="{{ field.name }}">
                             <option value=""></option>
-                            <option *ngFor="let option of field.choices;" value="{{ option.val }}">{{
+                            <option *ngFor="let option of field.choices" value="{{ option.val }}">{{
                                 option.label }}
                             </option>
-                        </select>
+                        </select>-->
                     </ion-item>
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
                 </div>
 
-                <div class="field" *ngIf="field.name == 'userCity' || field.name == 'countryOfOriginId'"
+                <div tappable (click)="openSelect(field,i)" class="field" *ngIf="(field.name == 'userCity' || field.name == 'countryOfOriginId') && field.type == 'select'"
                      [ngClass]="{'error': errors[field.name]}">
                     <div class="placeholder">{{ field.label }}</div>
                     <ion-item>
-                        <select class="select" data-placeholder="בחר מהרשימה" name="{{ field.name }}"
+                        <div class="select-value">{{field.valLabel}}</div>
+
+                        <!--<select class="select" data-placeholder="בחר מהרשימה" name="{{ field.name }}"
                                 [(ngModel)]="user[field.name]" id="{{ field.name }}">
                             <option value=""></option>
-                            <option *ngFor="let option of field.choices;" value="{{ option.val }}">{{
+                            <option *ngFor="let option of field.choices" value="{{ option.val }}">{{
                                 option.label }}
                             </option>
-                        </select>
+                        </select>-->
                     </ion-item>
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
                 </div>
@@ -114,7 +116,7 @@
                         {{ field.label }}
                     </div>
                     <ion-item>
-                        <ion-input (ionFocus)="inputClick(field.name)" value="1" name="{{ field.name }}"
+                        <ion-input value="1" name="{{ field.name }}"
                                    id="{{ field.name }}" type="{{ field.type }}"
                                    [(ngModel)]="user[field.name]"></ion-input>
                     </ion-item>
@@ -124,14 +126,15 @@
                 <div *ngIf="field.type == 'selects'" class="input" style="overflow: hidden">
                     <div class="placeholder">{{ field.label }}</div>
                     <!--[ngClass]="{'yellow-bg': err.experienceId0.errors && err.experienceId0.errors?.length != 0 }"-->
-                    <div class="b  irthday">
-                        <ion-item *ngFor="let select of field.sel">
-                            <select class="sml3" name="{{ select.name }}"
+                    <div class="birthday">
+                        <ion-item *ngFor="let select of field.sel" (click)="openSelect(select,i)">
+                            <div class="select-value">{{select.valLabel ? select.valLabel : select.placeholder}}</div>
+                            <!--<ion-select  name="{{ select.name }}"
                                     [(ngModel)]="user[select.name]" id="{{ select.name }}">
-                                <option *ngFor="let option of select.choices;"
+                                <ion-option *ngFor="let option of select.choices;"
                                         value="{{ option.val }}">{{ option.label }}
-                                </option>
-                            </select>
+                                </ion-option>
+                            </ion-select>-->
                         </ion-item>
                     </div>
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
@@ -179,9 +182,8 @@
             </div>
         </form>
     </div>
-
 </ion-content>
-
+<div class="bg-all"></div>
 <ion-footer *ngIf="!user?.register">
     <div class="register">
         <ion-navbar class="footerMenu">

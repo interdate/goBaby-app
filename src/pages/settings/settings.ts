@@ -26,7 +26,7 @@ export class SettingsPage {
                 private toastCtrl: ToastController,
                 public http: Http,
                 public storage: Storage,
-                private androidFingerprintAuth: AndroidFingerprintAuth,
+                //private androidFingerprintAuth: AndroidFingerprintAuth,
                 public api: ApiQuery) {
 
         this.http.get(api.url + '/user/settings', api.setHeaders(true)).subscribe(data => {
@@ -35,13 +35,13 @@ export class SettingsPage {
             this.form.userGetMsgToEmail = Boolean(parseInt(data.json().settings.userGetMsgToEmail));
         });
 
-        this.androidFingerprintAuth.isAvailable()
+        /*this.androidFingerprintAuth.isAvailable()
             .then((androidFingerprintAuth)=> {
                     if (androidFingerprintAuth.isAvailable) {
                         this.fingerprintAuth = true;
                     }
                 }
-            );
+            );*/
 
         this.storage.get('enableFingerAuth').then((enableFingerAuth) => {
             if (enableFingerAuth && enableFingerAuth == '1') {

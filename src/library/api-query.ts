@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Headers, RequestOptions, Http} from "@angular/http";
-import {AlertController, LoadingController, Platform} from "ionic-angular";
+import {AlertController, LoadingController, Platform, ModalController} from "ionic-angular";
 import {Storage} from "@ionic/storage";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Geolocation} from "@ionic-native/geolocation";
@@ -25,7 +25,7 @@ export class ApiQuery {
     public loading: any;
     public banner: {src: string; link: string};
 
-    public signupData: {  username: any, password: any };
+    public signupData: { username: any, password: any };
 
     constructor(public storage: Storage,
                 public alertCtrl: AlertController,
@@ -34,10 +34,11 @@ export class ApiQuery {
                 private sanitizer: DomSanitizer,
                 private geolocation: Geolocation,
                 public keyboard: Keyboard,
+                public modalCtrl: ModalController,
                 public plt: Platform) {
         //this.url = 'http://10.0.0.6:8100';
-        //this.url = 'http://localhost:8101';
-        this.url = 'https://www.shedate.co.il/api/v1';
+       this.url = 'http://localhost:8100';
+        //this.url = 'https://m.gobaby.co.il/api/v6';
         this.storage.get('user_id').then((val) => {
             this.storage.get('username').then((username) => {
                 this.username = username;
@@ -59,8 +60,6 @@ export class ApiQuery {
         });
     }
 
-
-
     setUserData(data) {
         this.setStorageData({label: 'username', value: data.username});
         this.setStorageData({label: 'password', value: data.password});
@@ -73,8 +72,8 @@ export class ApiQuery {
 
         this.geolocation.getCurrentPosition().then((pos) => {
             var params = JSON.stringify({
-                latitude: ''+pos.coords.latitude+'',
-                longitude: ''+pos.coords.longitude+''
+                latitude: '' + pos.coords.latitude + '',
+                longitude: '' + pos.coords.longitude + ''
             });
 
             this.http.post(this.url + '/user/location', params, this.setHeaders(true)).subscribe(data => {

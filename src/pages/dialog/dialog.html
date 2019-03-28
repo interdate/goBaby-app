@@ -105,7 +105,7 @@
     <ion-toolbar id="form-dialog">
         <ion-textarea id="dialog-msg" (keyup)="countCharacters($event)" #dialog_msg (ionFocus)="onFocus()"
                       [(ngModel)]="message" placeholder="" item-left></ion-textarea>
-        <button *ngIf="!submitBtn && micStatus" (click)="sendVoiceMessage()" class="record-b" ion-button icon-only round
+        <!--<button *ngIf="!submitBtn && micStatus" (click)="sendVoiceMessage()" class="record-b" ion-button icon-only round
                 outline
                 color="danger">
             <ion-icon name="ios-mic"></ion-icon>
@@ -115,8 +115,8 @@
                 round outline>
             <ion-icon name="radio-button-on"></ion-icon>
         </button>
-
-        <button *ngIf="submitBtn" class="send-msg" (click)="sendMessage()" ion-button color="danger">שלחי</button>
+-->
+        <button class="send-msg" (click)="sendMessage()" ion-button color="danger">שלחי</button>
         <!--[disabled]="check"-->
     </ion-toolbar>
 </ion-footer>

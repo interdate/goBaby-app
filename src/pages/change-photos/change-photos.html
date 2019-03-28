@@ -13,9 +13,9 @@
 </ion-header>
 
 <ion-content padding>
-    <!--<div class="description" *ngIf="photos?.length == 1 && dataPage.noPhoto == dataPage.photos[0].face">
+    <div class="description" *ngIf="photos?.length == 0 ">
         <div #desk>{{safeHtml(desk)}}</div>
-    </div>-->
+    </div>
     <div class="photos">
         <div *ngFor="let photo of photos">
             <div *ngIf="photo.main == '1'" class="main photo"
@@ -47,7 +47,7 @@
         <div *ngIf="photos?.length > 0 && photos?.length < 4" class="photo" (click)="add()">
             <div class="wrap">
                 <div class="photo-img"
-                     [ngStyle]="{ 'background-image': 'url(' + 'https://www.shedate.co.il/images/users/large/0.jpg' + ')'}"></div>
+                     [ngStyle]="{ 'background-image': 'url(' + 'https://www.gobaby.co.il/images/users/large/0.jpg' + ')'}"></div>
                 <span class="add"><ion-icon name="md-add"></ion-icon></span>
             </div>
         </div>
@@ -57,7 +57,7 @@
              (click)="add()">
             <div class="wrap">
                 <div class="photo-img"
-                     [ngStyle]="{ 'background-image': 'url('+'https://www.shedate.co.il/images/users/large/0.jpg' + ')'}"></div>
+                     [ngStyle]="{ 'background-image': 'url('+'https://www.gobaby.co.il/images/users/large/0.jpg' + ')'}"></div>
 
                 <span class="add"><ion-icon name="md-add"></ion-icon></span>
             </div>
@@ -69,6 +69,9 @@
     </div>
     <div *ngIf="!new_user" class="login-btn">
         <button color="danger" (click)=onHomePage() ion-button block>סיום עריכה</button>
+    </div>
+    <div class="description" *ngIf="photos?.length >= 1 ">
+        <div #desk>{{safeHtml(desk)}}</div>
     </div>
 </ion-content>
 <ion-footer>

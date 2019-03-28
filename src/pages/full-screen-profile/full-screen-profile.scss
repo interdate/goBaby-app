@@ -12,6 +12,16 @@ page-full-screen-profile {
     z-index: 9999;
     }
 
+    .disabled.favorite-profile-btn {
+        opacity: 1;
+        border: 1.5px #505154 solid;
+        img {
+            width: 30px;
+            display: block;
+            margin: 11px auto;
+        }
+    }
+
     .close-warp {
     width: 60px;
     height: 57px;

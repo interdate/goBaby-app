@@ -24,11 +24,11 @@ import {SettingsPageModule} from "../pages/settings/settings.module";
 import {SubscriptionPageModule} from "../pages/subscription/subscription.module";
 import {AdvancedSearchResultPageModule} from "../pages/advanced-search-result/advanced-search-result.module";
 import {Keyboard} from "@ionic-native/keyboard";
-import {AndroidFingerprintAuth} from "@ionic-native/android-fingerprint-auth";
 import {AdminMessagesPageModule} from "../pages/admin-messages/admin-messages.module";
 import {ProfilePage} from "../pages/profile/profile";
 import {AppVersion} from "@ionic-native/app-version";
-
+import {FingerprintAIO} from "@ionic-native/fingerprint-aio";
+import {SelectPageModule} from "../pages/select/select.module";
 
 
 @NgModule({
@@ -50,6 +50,7 @@ import {AppVersion} from "@ionic-native/app-version";
         HttpModule,
         RegisterPageModule,
         PageModule,
+        SelectPageModule,
         ChangePhotosPageModule,
         AdvancedsearchPageModule,
         AdvancedSearchResultPageModule,
@@ -65,18 +66,17 @@ import {AppVersion} from "@ionic-native/app-version";
         ProfilePage
     ],
     providers: [
+        FingerprintAIO,
         Nav,
         Keyboard,
         StatusBar,
         SplashScreen,
-        AndroidFingerprintAuth,
         Device,
         Geolocation,
         ImagePicker,
         FileTransfer,
         Camera,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
-        //{ provide: AndroidFingerprintAuth, useClass: FingerMock },
         ApiQuery, Media, File, AppVersion
     ]
 })

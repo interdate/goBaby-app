@@ -186,7 +186,7 @@ export class MyApp {
 
                     this.menu_items_login.push();
 
-                    this.menu_items[2].count = statistics.newNotificationsNumber;
+                    this.menu_items[2].count = statistics.newNotificationsNumber > 0 ? statistics.newNotificationsNumber : '';
                     this.menu_items[0].count = statistics.newMessagesNumber;
 
                     // Contacts Sidebar Menu
@@ -287,7 +287,7 @@ export class MyApp {
             {_id: '', icon: 'person', title: menu.view_my_profile, component: ProfilePage, count: ''},
             {_id: 'change_password', icon: '', title: menu.change_password, component: 'ChangePasswordPage', count: ''},
             {_id: 'freeze_account', icon: '', title: menu.freeze_account, component: 'FreezeAccountPage', count: ''},
-            {_id: 'settings', icon: '', title: menu.settings, component: SettingsPage, count: ''},
+           // {_id: 'settings', icon: '', title: menu.settings, component: SettingsPage, count: ''},
             {_id: '', icon: 'mail', title: menu.contact_us, component: 'ContactUsPage', count: ''},
             {_id: 'logout', icon: 'log-out', title: menu.log_out, component: LoginPage, count: ''}
         ];
@@ -702,7 +702,7 @@ export class MyApp {
 
         this.nav.viewDidEnter.subscribe((view) => {
 
-            this.getBanner();
+            //this.getBanner();
 
             this.events.subscribe('statistics:updated', () => {
                 // user and time are the same arguments passed in `events.publish(user, time)`

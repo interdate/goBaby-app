@@ -1,6 +1,15 @@
 <ion-header>
     <ion-navbar style="direction:ltr;">
-        <button menuToggle="right">
+        <div class="social">
+            <div class="telegram">
+                <a target="_blank" href="https://t.me/gobabycoil"><img src="https://m.zigzug.co.il/images/telegram.png"></a>
+            </div>
+            <div class="facebook">
+                <a target="_blank" href="https://www.facebook.com/Gobaby-%D7%92%D7%95%D7%91%D7%99%D7%99%D7%91%D7%99-%D7%94%D7%95%D7%A8%D7%95%D7%AA-%D7%9E%D7%A9%D7%95%D7%AA%D7%A4%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%94%D7%92%D7%93%D7%95%D7%9C-%D7%91%D7%99%D7%A9%D7%A8%D7%90%D7%9C-91665974500
+"><img src="https://m.zigzug.co.il/images/facebook.png"></a>
+            </div>
+        </div>
+        <button id="menuToggle" menuToggle="right">
             <ion-icon id="menu"></ion-icon>
         </button>
         <button (click)="homePage()" class="logo"><img src="assets/img/icons/logo.png" alt="sugardaddy"></button>
@@ -85,7 +94,7 @@
 <!--<img style="display: none;" class="banner" src="/images/spedate1.gif">-->
 
 <a class="link-banner"  *ngIf="api.banner?.src && api.banner?.link && is_login" href="{{api.banner?.link}}" (click)="goTo();">
-        <img class="banner" src="{{'https://www.shedate.co.il/images/banners/' + api.banner?.src}}">"#"
+        <img class="banner" src="{{api.banner?.src}}">"#"
 </a>
 <ion-footer *ngIf="is_login" (swipe)="swipeFooterMenu()">
     <!--<div *ngIf="new_message && new_message.is_not_sent_today == true" class="messageNotify">

@@ -11,6 +11,16 @@ page-profile {
     border: 1px #fff solid;
   }
 
+  .disabled.favorite-profile-btn {
+    opacity: 1;
+    border: 1.5px #505154 solid;
+    img {
+      width: 30px;
+      display: block;
+      margin: 11px auto;
+    }
+  }
+
   .swiper-pagination-bullet:not(.swiper-pagination-bullet-active){
     border: 1px #fff solid;
     width: 12px;

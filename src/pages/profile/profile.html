@@ -23,8 +23,8 @@
     <div *ngIf="user.isAddFavorite == '0' && user.id " tappable (click)="addFavorites(user)"
          class="favorite-profile-btn">
         <img src="assets/img/icons/padd.png"></div>
-    <div *ngIf="user.isAddFavorite == '1'" class="disabled favorite-profile-btn"><img
-            src="assets/img/icons/padd.png"></div>
+    <div *ngIf="user?.isAddFavorite == '1'" (click)="addFavorites(user)" class="disabled favorite-profile-btn"><img
+            src="assets/img/icons/fav-remove.png"></div>
 </div>
 <ion-content>
 
@@ -80,16 +80,35 @@
                         <span class="two">{{user.zodiac?.value }}</span>
                     </li>
 
-                    <li *ngIf="user.smoking?.value"><span class="one">{{user.smoking?.label }}</span>
-                        <span class="two">{{user.smoking?.value }}</span>
+                    <li *ngIf="user.occupation?.value"><span class="one">{{user.occupation?.label }}</span><span
+                            class="two">{{user.occupation?.value }}</span>
+                    </li>
+
+                    <li *ngIf="user.education?.value"><span class="one">{{user.education?.label }}</span><span
+                            class="two">{{user.education?.value }}</span>
+                    </li>
+
+                    <li *ngIf="user.religion?.value"><span class="one">{{user.religion?.label }}</span><span
+                            class="two">{{user.religion?.value }}</span>
                     </li>
 
                     <li *ngIf="user.purposes?.value"><span class="one">{{user.purposes?.label }}</span><span
                             class="two">{{user.purposes?.value }}</span>
                     </li>
 
+                    <li *ngIf="user.faithRelations?.value"><span class="one">{{user.faithRelations?.label }}</span><span
+                            class="two">{{user.faithRelations?.value }}</span>
+                    </li>
 
-                    <div class="profile-sub-title">אני בהרחבה</div>
+                    <li *ngIf="user.ethnicity?.value"><span class="one">{{user.ethnicity?.label }}</span><span
+                            class="two">{{user.ethnicity?.value }}</span>
+                    </li>
+
+                    <li *ngIf="user.portability?.value"><span class="one">{{user.portability?.label }}</span><span
+                            class="two">{{user.portability?.value }}</span>
+                    </li>
+
+                    <div class="profile-sub-title">סגנון חיים</div>
                     <!--<li *ngIf="user.iam?.value"><span
                             class="one">{{user.iam?.label }}</span><span
                             class="two">{{user.iam?.value }}</span></li>-->
@@ -107,27 +126,11 @@
                     </li>
                     <li *ngIf="user.animals?.value"><span class="one">{{user.animals?.label }}</span><span class="two">{{user.animals?.value }}</span>
                     </li>-->
-
-                    <li *ngIf="user.occupation?.value"><span class="one">{{user.occupation?.label }}</span><span
-                            class="two">{{user.occupation?.value }}</span>
+                    <li *ngIf="user.smoking?.value"><span class="one">{{user.smoking?.label }}</span>
+                        <span class="two">{{user.smoking?.value }}</span>
                     </li>
-
-
                     <li *ngIf="user.economy?.value"><span class="one">{{user.economy?.label }}</span><span
                             class="two">{{user.economy?.value }}</span>
-                    </li>
-
-
-                    <li *ngIf="user.education?.value"><span class="one">{{user.education?.label }}</span><span
-                            class="two">{{user.education?.value }}</span>
-                    </li>
-
-                    <li *ngIf="user.religion?.value"><span class="one">{{user.religion?.label }}</span><span
-                            class="two">{{user.religion?.value }}</span>
-                    </li>
-
-                    <li *ngIf="user.religion2?.value"><span class="one">{{user.religion2?.label }}</span><span
-                            class="two">{{user.religion2?.value }}</span>
                     </li>
 
                     <li *ngIf="user.drinking?.value"><span class="one">{{user.drinking?.label }}</span>
@@ -155,18 +158,14 @@
                              class="one">{{user.politicalAffiliation?.label }}</span><span class="two">{{user.politicalAffiliation?.value }}</span>
                      </li> -->
 
-                    <div class="profile-sub-title">איך אני נראית</div>
+                    <div class="profile-sub-title">מראה חיצוני</div>
 
                     <li *ngIf="user.height?.value"><span class="one">{{user.height?.label }}</span>
                         <span class="two">{{user.height?.value }}</span>
                     </li>
 
-                    <li *ngIf="user.body?.value"><span class="one">{{user.body?.label }}</span>
-                        <span class="two">{{user.body?.value }}</span>
-                    </li>
-
-                    <li *ngIf="user.eyes?.value"><span class="one">{{user.eyes?.label }}</span>
-                        <span class="two">{{user.eyes?.value }}</span>
+                    <li *ngIf="user.bodyType?.value"><span class="one">{{user.bodyType?.label }}</span>
+                        <span class="two">{{user.bodyType?.value }}</span>
                     </li>
 
                     <li *ngIf="user.hairColor?.value"><span class="one">{{user.hairColor?.label }}</span>
@@ -177,6 +176,9 @@
                         <span class="two">{{user.hairStyle?.value }}</span>
                     </li>
 
+                    <li *ngIf="user.eyes?.value"><span class="one">{{user.eyes?.label }}</span>
+                        <span class="two">{{user.eyes?.value }}</span>
+                    </li>
 
                     <div *ngIf="user.about?.value" class="profile-sub-title">{{user.about?.label }}</div>
                     <li *ngIf="user.about?.value">

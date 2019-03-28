@@ -22,7 +22,7 @@ export class SubscriptionPage {
                 public api: ApiQuery) {
         api.storage.get('user_id').then((val) => {
             if (val) {
-                window.open('https://www.shedate.co.il/newpayment/?userId=' + val + '&out=1', '_system');
+                window.open('https://www.gobaby.co.il/newpayment/?userId=' + val + '&out=1', '_system');
             }
         });
 
