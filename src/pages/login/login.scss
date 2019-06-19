@@ -1,5 +1,14 @@
 page-login {
 
+  .toolbar-background-md, .toolbar-background-ios {
+    background-color: transparent !important;
+  }
+
+  .fields {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .err {
     text-align: center;
     font-size: 14px;
@@ -11,15 +20,29 @@ page-login {
     text-decoration: underline;
   }
   .bg-image {
-    background: url(../assets/img/bg_page_login.jpg);
+    background: url(../assets/img/login.png);
     background-size: 100%;
-    background-position: bottom;
+    background-position: top;
     background-repeat: no-repeat;
-    background-color: #0f1526;
+    background-color: #fff;
+  }
+
+  .login-form .label{
+    color: #454956;
+    font-size: 24px;
+    margin: 0;
+    font-family: 'Arimo', sans-serif;
+  }
+
+
+  ion-label .label {
+    margin: 0;
   }
 
   ion-item.item-md, ion-item.item-ios {
     background-color: transparent;
+    flex: 1 50%;
+    padding: 0;
   }
 
   .text-input-md, .text-input-ios {
@@ -34,18 +57,27 @@ page-login {
     width: 47.9%;
   }
 
+  .text-input-md, .text-input-ios {
+    margin: 8px 0;
+    width: 100%;
+  }
+
+  .btn.full {
+    width: calc(100% - 8px) !important;
+  }
+
   .btn.grey {
     background-color: #ccc;
     color: #000;
   }
 
   input.text-input-md, input.text-input-ios {
-    background: #ddd;
+    background: #e1e5e6;
   }
 
   ion-footer {
     background-color: transparent;
-    top: 20px;
+    bottom: 20px;
   }
 
   @media (max-width: 320px) {

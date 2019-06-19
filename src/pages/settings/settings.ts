@@ -33,6 +33,8 @@ export class SettingsPage {
             //this.form = data.json().settings;
             this.form.newMessPushNotif = Boolean(parseInt(data.json().settings.newMessPushNotif));
             this.form.userGetMsgToEmail = Boolean(parseInt(data.json().settings.userGetMsgToEmail));
+
+
         });
 
         /*this.androidFingerprintAuth.isAvailable()

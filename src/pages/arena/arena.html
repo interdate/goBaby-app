@@ -24,13 +24,13 @@
           Notifications
         </button>
     </div>-->
-    <ion-slides ng-if="true" freeMode="true" loop="true" #slider (ionSlideReachStart)="slideChanged($event)" >
+    <ion-slides ng-if="true" freeMode="true" loop="true" #slider (ionSlideNextStart)="slideChanged($event)" >
       <ion-slide  *ngFor="let user of users">
   
-        <ion-card *ngIf="user?.imageUrl">
+        <ion-card *ngIf="user?.photoLarge">
           <div class="clr"></div>
-          <div  tappable (click)="toProfile()" class="pop_title"><span>{{user?.nickName}},</span> {{user?.age}} {{user?.area}}</div>
-          <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + user?.imageUrl + ')'}"></div>
+          <div  tappable (click)="toProfile()" class="pop_title"><span >{{user?.nickName}},</span> {{user?.age}} {{user?.area}}</div>
+          <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + user?.photoLarge + ')'}"></div>
         </ion-card>
       </ion-slide>
   

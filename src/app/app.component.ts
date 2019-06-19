@@ -7,10 +7,11 @@ import {
     ToastController,
     Content,
     AlertController,
-    Events, LoadingController
+    Events,
+    LoadingController
 } from "ionic-angular";
 import {Market} from "@ionic-native/market";
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import {Push, PushObject, PushOptions} from "@ionic-native/push";
 import {Http} from "@angular/http";
 import {StatusBar} from "@ionic-native/status-bar";
 import {SplashScreen} from "@ionic-native/splash-screen";
@@ -24,7 +25,7 @@ import {SettingsPage} from "../pages/settings/settings";
 import {InboxPage} from "../pages/inbox/inbox";
 import {SubscriptionPage} from "../pages/subscription/subscription";
 import {ProfilePage} from "../pages/profile/profile";
-import { AppVersion } from '@ionic-native/app-version';
+import {AppVersion} from "@ionic-native/app-version";
 
 
 declare var $: any;
@@ -43,6 +44,7 @@ export class MyApp {
 
     // make HelloIonicPage the root (or first) page
     rootPage: any;
+    banner: any;
     //rootPage = LoginPage;
     menu_items_logout: Array<{_id: string, icon: string, title: string, count: any, component: any}>;
     menu_items_login: Array<{_id: string, icon: string, title: string, count: any, component: any}>;
@@ -55,7 +57,6 @@ export class MyApp {
     activeMenu: string;
     username: any;
     back: string;
-    isPaying: any = false;
 
     is_login: any = false;
     status: any = '';
@@ -124,12 +125,10 @@ export class MyApp {
     }
 
     getAppVersion() {
+
         this.http.get(this.api.url + '/open_api/version', this.api.header).subscribe(data => {
 
-
             if (this.platform.is('cordova')) {
-
-                //alert(this.appVersion.getVersionCode());
                 this.appVersion.getVersionNumber().then((s) => {
                     if (data.json().version != s) {
                         let prompt = this.alertCtrl.create({
@@ -146,7 +145,7 @@ export class MyApp {
                                 {
                                     text: data.json().update,
                                     handler: data => {
-                                        window.open('market://details?id=com.interdate.shedate', '_system');
+                                        window.open('market://details?id=com.interdate.gobaby', '_system');
                                     }
                                 }
                             ]
@@ -157,6 +156,7 @@ export class MyApp {
             }
 
         });
+
     }
 
     closeMsg() {
@@ -182,7 +182,7 @@ export class MyApp {
 
                     let statistics = data.json().statistics;
 
-                    this.isPaying = data.json().userIsPaying;
+                    this.api.isPaying = data.json().userIsPaying;
 
                     this.menu_items_login.push();
 
@@ -211,7 +211,7 @@ export class MyApp {
                 }, err => {
                     //console.log('Statistics Error');
                     this.api.hideLoad();
-                    if(err.status == 403 ){
+                    if (err.status == 403) {
 
                         this.api.setHeaders(false, null, null);
                         // Removing data storage
@@ -219,7 +219,7 @@ export class MyApp {
                         this.storage.remove('password');
                         this.storage.remove('user_id');
                         this.storage.remove('user_photo');
-                        this.nav.setRoot(LoginPage,{error:err['_body']});
+                        this.nav.setRoot(LoginPage, {error: err['_body']});
                         this.nav.popToRoot();
                     }
 
@@ -255,9 +255,9 @@ export class MyApp {
             {_id: 'blocked', icon: '', title: menu.forgot_password, component: 'PasswordRecoveryPage', count: ''},
             {_id: '', icon: 'mail', title: menu.contact_us, component: 'ContactUsPage', count: ''},
             {_id: '', icon: 'person-add', title: menu.join_free, component: RegisterPage, count: ''},
-         /*   {_id: '', icon: 'ribbon', title: 'Fingerprint1', component: FingerprintPage, count: ''},
-            {_id: '', icon: 'ribbon', title: 'Fingerprint2', component: Fingerprint2Page, count: ''},
-            {_id: '', icon: 'ribbon', title: 'Fingerprint3', component: Fingerprint3Page, count: ''},*/
+            /*   {_id: '', icon: 'ribbon', title: 'Fingerprint1', component: FingerprintPage, count: ''},
+             {_id: '', icon: 'ribbon', title: 'Fingerprint2', component: Fingerprint2Page, count: ''},
+             {_id: '', icon: 'ribbon', title: 'Fingerprint3', component: Fingerprint3Page, count: ''},*/
         ];
 
         this.menu_items = [
@@ -287,8 +287,8 @@ export class MyApp {
             {_id: '', icon: 'person', title: menu.view_my_profile, component: ProfilePage, count: ''},
             {_id: 'change_password', icon: '', title: menu.change_password, component: 'ChangePasswordPage', count: ''},
             {_id: 'freeze_account', icon: '', title: menu.freeze_account, component: 'FreezeAccountPage', count: ''},
-           // {_id: 'settings', icon: '', title: menu.settings, component: SettingsPage, count: ''},
-            {_id: '', icon: 'mail', title: menu.contact_us, component: 'ContactUsPage', count: ''},
+            {_id: 'settings', icon: '', title: menu.settings, component: SettingsPage, count: ''},
+            //{_id: '', icon: 'mail', title: menu.contact_us, component: 'ContactUsPage', count: ''},
             {_id: 'logout', icon: 'log-out', title: menu.log_out, component: LoginPage, count: ''}
         ];
 
@@ -360,7 +360,7 @@ export class MyApp {
             {
                 _id: 'near-me',
                 src_img: '',
-                title: 'קרובות אלי',
+                title: 'קרובים אלי',
                 list: 'distance',
                 icon: 'pin',
                 component: HomePage,
@@ -405,7 +405,15 @@ export class MyApp {
                 component: 'NotificationsPage',
                 count: ''
             },
-            {_id: '', src_img: 'assets/img/icons/search.png', icon: '', title: menu.search, list: '', component: 'SearchPage', count: ''},
+            {
+                _id: '',
+                src_img: 'assets/img/icons/search.png',
+                icon: '',
+                title: menu.search,
+                list: '',
+                component: 'SearchPage',
+                count: ''
+            },
         ];
     }
 
@@ -459,8 +467,8 @@ export class MyApp {
             this.statusBar.backgroundColorByName('black');
 
             /*setTimeout(function () {
-                this.splashScreen.hide();
-            },1000);*/
+             this.splashScreen.hide();
+             },1000);*/
         });
     }
 
@@ -488,7 +496,7 @@ export class MyApp {
         const push2: PushObject = this.push.init(options);
 
         push2.on('registration').subscribe((data) => {
-            //this.deviceToken = data.registrationId;
+            //this.deviceToken = data.registrationIdalert();
             this.storage.set('deviceToken', data.registrationId);
             this.api.sendPhoneId(data.registrationId);
             //TODO - send device token to server
@@ -533,20 +541,29 @@ export class MyApp {
     }
 
     getBanner() {
-        if(this.api.pageName != 'ArenaPage' && this.api.pageName != 'SearchPage' && this.api.pageName != 'DialogPage' && this.api.pageName != 'AdvancedSearchPage') {
+        if (this.api.pageName != 'ArenaPage' && this.api.pageName != 'SearchPage' && this.api.pageName != 'DialogPage' && this.api.pageName != 'AdvancedSearchPage') {
             this.http.get(this.api.url + '/user/banner', this.api.header).subscribe(data => {
-                this.api.banner = data.json();
+                this.api.banner = data.json().banner;
             });
 
-        }else{
-            this.api.banner = {src: '', link: ''};
+        } else {
+            this.api.banner = {src: '', link: '', onlyPayed: ''};
         }
         //this.content.resize();
     }
 
-    goTo() {
-        window.open(this.api.banner.link, '_blank');
-        return false;
+    goTo(link) {
+        console.log(link);
+
+        var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+
+        if (pattern.test(link)) {
+            console.log('1');
+            window.open(link, '_blank');
+        } else {
+            console.log(link);
+            this.nav.push('' + link + '');
+        }
     }
 
     openPage(page) {
@@ -651,24 +668,24 @@ export class MyApp {
     getMessage() {
         //let page = this.nav.getActive();
         /*
-        this.http.get(this.api.url + '/user/new/messages', this.api.setHeaders(true)).subscribe(data => {
+         this.http.get(this.api.url + '/user/new/messages', this.api.setHeaders(true)).subscribe(data => {
 
-            if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
-                this.new_message = data.json().messages[0];
-                if (typeof this.new_message == 'object') {
-                    this.http.get(this.api.url + '/user/messages/notify/' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
-                    });
-                }
-            }
+         if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
+         this.new_message = data.json().messages[0];
+         if (typeof this.new_message == 'object') {
+         this.http.get(this.api.url + '/user/messages/notify/' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
+         });
+         }
+         }
 
-            this.message = data.json();
+         this.message = data.json();
 
-            this.menu_items[2].count = data.json().newNotificationsNumber;
-             this.menu_items[0].count = data.json().newMessagesNumber;
-             this.menu_items_footer2[2].count = data.json().newNotificationsNumber;
-             this.menu_items_footer1[3].count = data.json().newMessagesNumber;
-        });
-    */
+         this.menu_items[2].count = data.json().newNotificationsNumber;
+         this.menu_items[0].count = data.json().newMessagesNumber;
+         this.menu_items_footer2[2].count = data.json().newNotificationsNumber;
+         this.menu_items_footer1[3].count = data.json().newMessagesNumber;
+         });
+         */
     }
 
     checkStatus() {
@@ -702,7 +719,7 @@ export class MyApp {
 
         this.nav.viewDidEnter.subscribe((view) => {
 
-            //this.getBanner();
+            this.getBanner();
 
             this.events.subscribe('statistics:updated', () => {
                 // user and time are the same arguments passed in `events.publish(user, time)`
@@ -781,7 +798,11 @@ export class MyApp {
             if (el.api.pageName == 'LoginPage') {
                 //clearInterval(this.interval);
                 this.interval = false;
+                $('ion-header').hide();
+
                 //this.avatar = '';
+            } else {
+                $('ion-header').show();
             }
             if (el.api.pageName == 'HomePage' && this.interval == false) {
                 //$('.link-banner').show();
@@ -808,10 +829,14 @@ export class MyApp {
                 /*if (el.api.pageName == 'HelloIonicPage') {
                  $('.link-banner').show();
                  }
+                 */
 
-                 if (el.api.pageName == 'LoginPage') {
-                 $('.link-banner').hide();
-                 }*/
+                $('.link-banner').hide();
+
+                if (el.api.pageName == 'HomePage' || el.api.pageName == 'InboxPage' || el.api.pageName == 'ProfilePage') {
+                    $('.link-banner').show();
+                    console.log('11111');
+                }
                 //this.bannerStatus();
 
             });

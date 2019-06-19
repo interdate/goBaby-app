@@ -20,10 +20,11 @@ export class ApiQuery {
     public status: any = '';
     public back: any = false;
     public storageRes: any;
+    public isPaying: any;
     public footer: any = true;
     public pageName: any = false;
     public loading: any;
-    public banner: {src: string; link: string};
+    public banner: any;
 
     public signupData: { username: any, password: any };
 
@@ -54,7 +55,7 @@ export class ApiQuery {
     }
 
     sendPhoneId(idPhone) {
-        let data = JSON.stringify({deviceId: idPhone});
+        let data = JSON.stringify({gcmDeviceId: idPhone});
         let os = (this.plt.is('IOS')) ? 'iOS' : 'Android';
         this.http.post(this.url + '/user/deviceId/OS:' + os, data, this.setHeaders(true)).subscribe(data => {
         });
@@ -81,11 +82,12 @@ export class ApiQuery {
         });
     }
 
+
     setStorageData(data) {
         this.storage.set(data.label, data.value);
     }
 
-    showLoad(txt = 'אנא המתיני...') {
+    showLoad(txt = 'אנא המתן...') {
 
         this.loading = this.loadingCtrl.create({
             content: txt

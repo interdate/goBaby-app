@@ -11,22 +11,21 @@
       </ion-navbar>
       <!--<ion-title><button></button><ion-icon name="arrow-round-back"></ion-icon></button></ion-title>-->
   </ion-header>
-  
-  
-  <ion-content padding>
-      <div class="faq">
-          <div *ngFor="let q of page">
-              <h2 class="headline">{{q?.name}}</h2>
-              <div *ngFor="let qa of q?.faq, let i = index" padding-top padding-bottom>
-                  <div class="question" (click)="hightlightStatus[i]=!hightlightStatus[i]"
-                       [class.highlight]="hightlightStatus[i]" [attr.data-selected]="false">{{qa.q }}
-                  </div>
-                  <div class="answer" [class.highlight]="hightlightStatus[i]" [innerHTML]="qa.a">
-                  </div>
-              </div>
-          </div>
-      </div>
-  </ion-content>
+
+
+<ion-content padding>
+    <div class="faq">
+        <div *ngFor="let q of page; let qi = index">
+            <h2 class="headline">{{q?.name}}</h2>
+            <div class="question" *ngFor="let qa of q?.faq, let i = index" id="q_{{qi}}{{i}}" padding-top padding-bottom (click)="toggleAnswer(qi,i);">
+                <div [innerHTML]="qa.q">
+                </div>
+                <div class="answer" [innerHTML]="qa.a">
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>
   
   <ion-footer>
   

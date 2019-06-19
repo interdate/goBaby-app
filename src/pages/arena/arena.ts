@@ -1,7 +1,7 @@
-import { Component, ViewChild, Injectable } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, ToastController, LoadingController, Events } from 'ionic-angular';
-import {ApiQuery} from '../../library/api-query';
-import {Http} from '@angular/http';
+import {Component, ViewChild, Injectable} from "@angular/core";
+import {IonicPage, NavController, NavParams, Slides, ToastController, LoadingController, Events} from "ionic-angular";
+import {ApiQuery} from "../../library/api-query";
+import {Http} from "@angular/http";
 import {ChangePhotosPage} from "../change-photos/change-photos";
 import {ProfilePage} from "../profile/profile";
 
@@ -14,51 +14,44 @@ import {ProfilePage} from "../profile/profile";
 
 @IonicPage()
 @Component({
-  selector: 'page-arena',
-  templateUrl: 'arena.html',
+    selector: 'page-arena',
+    templateUrl: 'arena.html',
 })
 @Injectable()
 export class ArenaPage {
 
-  @ViewChild(Slides) slides: Slides;
+    @ViewChild(Slides) slides: Slides;
 
-  users: Array<{ id: string, username: string, photo: string, age: string, area: string, image: string }>;
-  
-  texts: { like: string, add: string, message: string, remove: string, unblock: string, no_results: string  };
-  notifications: any;
-  checkNotifications: any;
+    users: Array<{ id: string, username: string, photo: string, age: string, area: string, image: string }>;
 
-  constructor(public navCtrl: NavController,
-              public toastCtrl: ToastController,
-              public navParams: NavParams,
-              public http: Http,
-              public loadingCtrl: LoadingController,
-              public events: Events,
-              public api: ApiQuery) {
+    texts: { like: string, add: string, message: string, remove: string, unblock: string, no_results: string  };
+    notifications: any;
+    checkNotifications: any;
 
-    let user_id = 0;
+    constructor(public navCtrl: NavController,
+                public toastCtrl: ToastController,
+                public navParams: NavParams,
+                public http: Http,
+                public loadingCtrl: LoadingController,
+                public events: Events,
+                public api: ApiQuery) {
 
-    let loading = this.loadingCtrl.create({
-    content: 'אנא המתיני...'
-    });
+        let user_id = 0;
 
-    loading.present();
+        let loading = this.loadingCtrl.create({
+            content: 'אנא המתן...'
+        });
 
-    if (navParams.get('user')) {
-        user_id = navParams.get('user');
-    }
+        loading.present();
 
-    /*let params = JSON.stringify({
-        action: 'arena',
-        user_id: user_id
-    });*/
+        if (navParams.get('user')) {
+            user_id = navParams.get('user');
+        }
 
-    this.http.get(api.url + '/users/forLikes/'+user_id+'/0', api.setHeaders(true)).subscribe(data => {
-    loading.dismiss();
-    this.users = data.json().users.items;
-        console.log(this.users);
-    this.texts = data.json().texts;
-
+        this.http.get(api.url + '/users/forLikes/' + user_id + '/0', api.setHeaders(true)).subscribe(data => {
+            loading.dismiss();
+            this.users = data.json().users.items;
+            this.texts = data.json().texts;
 
             // If there's message, than user can't be on this page
             if (data.json().arenaStatus) {
@@ -71,88 +64,82 @@ export class ArenaPage {
                 toast.present();
                 this.navCtrl.push(ChangePhotosPage);
             }
-    });
-}
+        });
+    }
 
     setNotifications() {
-      this.events.subscribe('user:created', (notifications) => {
-          console.log('Welcome', notifications, 'at');
-          this.notifications = notifications;
-      });
+        this.events.subscribe('user:created', (notifications) => {
+            console.log('Welcome', notifications, 'at');
+            this.notifications = notifications;
+        });
     }
 
     goToSlide(str) {
 
-      let user = this.users[this.slides.getActiveIndex()];
-      let index = this.slides.getActiveIndex();
+        let user = this.users[this.slides.getActiveIndex()];
+        let index = this.slides.getActiveIndex();
 
 
-      if (str == 'like') {
+        if (str == 'like') {
+            let params = JSON.stringify({
+                toUser: user.id,
+            });
 
-          let params = JSON.stringify({
-              toUser: user.id,
-          });
+            this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
 
-          this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
+            });
 
-          });
+            this.users.splice(index, 1);
+            this.slides.slideTo(index, 1);
 
-          this.users.splice(index, 1);
-          this.slides.slideTo(index,1);
+        } else {
 
-      } else {
-
-
-          if (this.slides.isEnd()) {
-              //this.slides.slideNext();
-              //var that = this;
-              //setTimeout(function () {
-              this.slides.slideTo(0,1);
-              //this.slides.update();
-              //}, 10);
-          } else {
-              this.slides.slideNext();
-          }
-      }
+            if (this.slides.isEnd()) {
+                this.slides.slideTo(0, 1);
+            } else {
+                this.slides.slideNext();
+            }
+        }
     }
 
     slideChanged(event) {
-      if(this.slides.getActiveIndex() == 1){
-          console.log(this.users[this.slides.getActiveIndex()]);
+        console.log(this.users[this.slides.getActiveIndex()]);
+        if (this.slides.getActiveIndex() == 1) {
+            console.log(this.users[this.slides.getActiveIndex()]);
 
-          console.log(this.slides.getActiveIndex());
-      }
+            console.log(this.slides.getActiveIndex());
+        }
     }
 
     toDialog() {
-      let user = this.users[this.slides.getActiveIndex()];
-      this.navCtrl.push('DialogPage', {
-          user: user
-      });
+        let user = this.users[this.slides.getActiveIndex()];
+        this.navCtrl.push('DialogPage', {
+            user: user
+        });
     }
 
     toProfile() {
-      let user = this.users[this.slides.getActiveIndex()];
-      this.navCtrl.push(ProfilePage, {
-          user: user
-      });
+        let user = this.users[this.slides.getActiveIndex()];
+        this.navCtrl.push(ProfilePage, {
+            user: user
+        });
     }
 
     toNotifications() {
-      this.navCtrl.push('NotificationsPage');
+        this.navCtrl.push('NotificationsPage');
     }
 
 
     ionViewDidLoad() {
-      console.log('ionViewDidLoad ArenaPage');
+        console.log('ionViewDidLoad ArenaPage');
     }
 
     ionViewWillEnter() {
-      this.api.pageName = 'ArenaPage';
+        this.api.pageName = 'ArenaPage';
     }
 
     ionViewDidEnter() {
-      this.slides.update();
+        this.slides.update();
     }
 
 }

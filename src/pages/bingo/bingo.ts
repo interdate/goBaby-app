@@ -17,7 +17,6 @@ import { ApiQuery } from '../../library/api-query';
 export class BingoPage {
 
   data: { user: any, texts: any };
-  
     constructor(
       public navCtrl: NavController,
       public navParams: NavParams,

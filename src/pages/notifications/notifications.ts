@@ -53,8 +53,6 @@ export class NotificationsPage {
 
         this.getPage();
 
-        console.log(user);
-
         this.users = data.json().users;
 
         if( bingo == 1) {

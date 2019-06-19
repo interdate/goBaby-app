@@ -134,6 +134,8 @@ export class DialogPage {
             this.alert = data.json().blacklist != '' ? data.json().blacklist : '';
             this.contactCurrentReadMessagesNumber = data.json().contactCurrentReadMessagesNumber;
 
+
+
             if(scroll == true){
                 this.scrollToBottom();
             }
@@ -222,10 +224,12 @@ export class DialogPage {
 
             const filetransfer = this.fileTransfer.create();
 
-            filetransfer.upload(url, this.api.url + '/user/message/audio/' + this.user.userId, options).then((voicemessage) => {
+            filetransfer.upload(url, this.api.url + '/user/message/audio/' + this.user.userId, options).then((res) => {
+                //alert('res:' + JSON.stringify(res));
+
             }, (error) => {
                 // handle error
-                //alert('test:' + JSON.stringify(error));
+                //alert('err:' + JSON.stringify(error));
             });
 
         } else {
@@ -251,6 +255,14 @@ export class DialogPage {
 
                 this.http.post(this.api.url + '/user/chat/' + userId, params, this.api.setHeaders(true)).subscribe(data => {
                     this.messages = data.json().chat.items;
+                    if(data.json().error) {
+                        let toast = this.toastCtrl.create({
+                            message: data.json().error,
+                            duration: 2000
+                        });
+
+                        toast.present();
+                    }
                     this.sendPush();
                     this.countNewMess = data.json().chat.newMess;
                 });
@@ -541,13 +553,12 @@ export class DialogPage {
         var that = this;
         this.checkChat = setInterval(function () {
             that.getNewMessages();
-        }, 10000);
+        }, 5000);
 
         $('button').click(function () {
             // clean textareaa after submit
             $('textarea').val('');
         });
-
     }
 
 }

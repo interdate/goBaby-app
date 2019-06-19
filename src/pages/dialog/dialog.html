@@ -34,29 +34,29 @@
             <ion-grid>
                 <ion-row>
                     <ion-col
-                            *ngIf="!msg.voiceUrl && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחצי כאן' && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחצי כאן או השתמשי בנקודה לקריאת הודעות'"
+                            *ngIf="!msg.voiceUrl && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחץ כאן' && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחץ כאן או השתמש בנקודה לקריאת הודעות'"
                             class="text" width-75>
                         <ion-card-content [innerHTML]="msg?.text" item-left>
                         </ion-card-content>
                     </ion-col>
-                    <ion-col *ngIf="msg?.text == 'לא ניתן לצפות בהודעה. לרכישת מנוי לחצי כאן'"
+                    <ion-col *ngIf="msg?.text == 'לא ניתן לצפות בהודעה. לרכישת מנוי לחץ כאן'"
                              class="text" width-75>
                         <ion-card-content item-left>
                             {{'לא ניתן לצפות בהודעה. לרכישת מנוי'}}
-                            <span color="blue" (click)="subscription()"> לחצי כאן</span>
+                            <span color="blue" (click)="subscription()"> לחץ כאן</span>
                         </ion-card-content>
                     </ion-col>
                     <ion-col
-                            *ngIf="msg?.text == 'לא ניתן לצפות בהודעה. לרכישת מנוי לחצי כאן או השתמשי בנקודה לקריאת הודעות'"
+                            *ngIf="msg?.text == 'לא ניתן לצפות בהודעה. לרכישת מנוי לחץ כאן או השתמש בנקודה לקריאת הודעות'"
                             class="text" width-75>
                         <ion-card-content item-left>
                             {{'לא ניתן לצפות בהודעה. לרכישת מנוי'}}
-                            <span color="blue" (click)="subscription()">לחצי כאן </span>
-                            או <span color="blue" (click)="useFreePointToReadMessage(msg)">השתמשי בנקודה </span> לקריאת
+                            <span color="blue" (click)="subscription()">לחץ כאן </span>
+                            או <span color="blue" (click)="useFreePointToReadMessage(msg)">השתמש בנקודה </span> לקריאת
                             הודעות
                         </ion-card-content>
                     </ion-col>
-                    <ion-col *ngIf="msg.voiceUrl && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחצי כאן או השתמשי בנקודה לקריאת הודעות' && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחצי כאן'" class="text" width-75>
+                    <ion-col *ngIf="msg.voiceUrl && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחץ כאן או השתמש בנקודה לקריאת הודעות' && msg?.text != 'לא ניתן לצפות בהודעה. לרכישת מנוי לחץ כאן'" class="text" width-75>
                         <ion-card-content class="msg-{{msg.id}}" item-left>
                             <div class="duration-bar"><span class="mejs-time-total"><span class="runner"></span></span></div>
                             <button *ngIf="(isPlay == false) || (currentMsgPlay != msg.id && isPlay == true )" style="width:19%;" class="play-button" (click)="playrecord(msg)" ion-button
@@ -82,7 +82,7 @@
                             <div class="date">{{msg.date}}</div>
                             <!--<ion-icon *ngIf="user?.id == msg.from" name="checkmark"></ion-icon>-->
                             <ion-icon
-                                    *ngIf="msg?.text != 'לצפיה בהודעה לחצי' && msg?.text != 'לצפיה בהודעה לחצי לרכישת מנוי או לשימוש בנקודה'"
+                                    *ngIf="msg?.text != 'לצפיה בהודעה לחץ' && msg?.text != 'לצפיה בהודעה לחץ לרכישת מנוי או לשימוש בנקודה'"
                                     (click)="deleteMsg(msg,i)" class="delete" name="ios-trash-outline"></ion-icon>
                             <div *ngIf="user.userId != msg?.from">
 
@@ -105,7 +105,7 @@
     <ion-toolbar id="form-dialog">
         <ion-textarea id="dialog-msg" (keyup)="countCharacters($event)" #dialog_msg (ionFocus)="onFocus()"
                       [(ngModel)]="message" placeholder="" item-left></ion-textarea>
-        <!--<button *ngIf="!submitBtn && micStatus" (click)="sendVoiceMessage()" class="record-b" ion-button icon-only round
+        <button *ngIf="!submitBtn && micStatus" (click)="sendVoiceMessage()" class="record-b" ion-button icon-only round
                 outline
                 color="danger">
             <ion-icon name="ios-mic"></ion-icon>
@@ -115,8 +115,8 @@
                 round outline>
             <ion-icon name="radio-button-on"></ion-icon>
         </button>
--->
-        <button class="send-msg" (click)="sendMessage()" ion-button color="danger">שלחי</button>
+
+        <button *ngIf="submitBtn"  class="send-msg" (click)="sendMessage()" ion-button color="danger">שלח</button>
         <!--[disabled]="check"-->
     </ion-toolbar>
 </ion-footer>

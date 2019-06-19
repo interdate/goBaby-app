@@ -126,7 +126,7 @@ export class LoginPage {
 
     fingerAuthentication() {
         this.faio.show({
-            clientId: 'com.interdate.shedate',
+            clientId: 'com.interdate.gobaby',
             clientSecret: 'password', //Only necessary for Android
         })
             .then((result: any) => {
@@ -147,6 +147,8 @@ export class LoginPage {
     }
 
     validate(response) {
+
+        this.form.login.username.value = response.userNick;
 
         if (response.status != "not_activated") {
             this.storage.set('username', this.form.login.username.value);

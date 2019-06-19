@@ -29,6 +29,7 @@ import {ProfilePage} from "../pages/profile/profile";
 import {AppVersion} from "@ionic-native/app-version";
 import {FingerprintAIO} from "@ionic-native/fingerprint-aio";
 import {SelectPageModule} from "../pages/select/select.module";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import {SelectPageModule} from "../pages/select/select.module";
         Device,
         Geolocation,
         ImagePicker,
+        InAppBrowser,
         FileTransfer,
         Camera,
         {provide: ErrorHandler, useClass: IonicErrorHandler},

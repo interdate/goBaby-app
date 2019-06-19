@@ -82,7 +82,7 @@ export class AdvancedsearchPage {
                 sexPref: this.form.sexPref.value,
                 smoking: this.form.smoking.value,
                 sport: this.form.sport.value,
-                children: this.form.sport.value,
+                children: this.form.userChildren.value,
                 city: this.form.userCityName.value,
                 interests: this.form.userInterests.value,
                 withPhotos: this.form.withPhotos.value

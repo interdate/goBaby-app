@@ -131,7 +131,7 @@ export class ChangePhotosPage {
             console.log('Param', params);
             data = JSON.stringify({setMain: params.id});
 
-        } else if ('deletePage') {
+        } else if (type == 'deleteImage') {
             var action = "delete";
             data = JSON.stringify({
                 //delete: params.id
@@ -140,7 +140,7 @@ export class ChangePhotosPage {
 
         this.http.post(this.api.url + '/user/images/' + action + '/' + params.id, data, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
 
-            if(type != 'setMain') {
+            if(type != 'setMain' && type != 'deleteImage') {
                 this.dataPage = data.json();
             }else {
                 this.dataPage.images = data.json().images;
@@ -158,7 +158,7 @@ export class ChangePhotosPage {
         if (photo.main == 0) {
 
             mainOpt.push({
-                    text: 'קבעי כראשית',
+                    text: 'קבע כראשית',
                     icon: 'contact',
                     handler: () => {
                         this.postPageData('setMain', photo);
@@ -263,6 +263,7 @@ export class ChangePhotosPage {
         this.camera.getPicture(cameraOptions).then((imageData) => {
             this.uploadPhoto(imageData);
         }, (err) => {
+            //alert(JSON.stringify(err));
             console.log(err);
         });
     }
@@ -285,11 +286,7 @@ export class ChangePhotosPage {
 
     uploadPhoto(url) {
 
-        let loading = this.loadingCtrl.create({
-            content: 'אנא המתיני...'
-        });
-
-        loading.present();
+        this.api.showLoad();
 
         this.storage.get('user_id').then((val) => {
 
@@ -298,17 +295,17 @@ export class ChangePhotosPage {
                 fileName: 'test.jpg',
                 chunkedMode: false,
                 mimeType: "image/jpg",
-                headers: {Authorization: "Basic " + btoa(encodeURIComponent(this.username) + ":" + this.password)}/*@*/
+                headers: {Authorization: "Basic " + btoa(encodeURIComponent(this.username) + ":" + encodeURIComponent(this.password))}/*@*/
             };
 
             const filetransfer = this.fileTransfer.create();
 
             filetransfer.upload(url, this.api.url + '/user/image', options).then((entry) => {
                 this.navCtrl.push(ChangePhotosPage, {});
-                loading.dismiss();
+                this.api.hideLoad();
             }, (err) => {
                 //alert(JSON.stringify(err));
-                loading.dismiss();
+                this.api.hideLoad();
             });
         });
     }

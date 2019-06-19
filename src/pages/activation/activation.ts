@@ -42,7 +42,7 @@ export class ActivationPage {
   getForm(data = '') {
 
       let loading = this.loadingCtrl.create({
-          content: 'אנא המתיני...'
+          content: 'אנא המתן...'
       });
 
       loading.present();

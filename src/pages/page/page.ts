@@ -30,7 +30,7 @@ export class Page {
         data => {
           //alert(JSON.stringify(data));
           console.log('page: ', data.json());
-          this.page = data.json().success;
+          this.page = data.json();
           this.api.hideLoad();
           $('#content').html(this.page.pageText);
           //this.content.scrollToTop(300);

@@ -1,16 +1,11 @@
 <ion-header>
     <ion-navbar style="direction:ltr;">
-        <div class="social">
-            <div class="telegram">
-                <a target="_blank" href="https://t.me/gobabycoil"><img src="https://m.zigzug.co.il/images/telegram.png"></a>
-            </div>
-            <div class="facebook">
-                <a target="_blank" href="https://www.facebook.com/Gobaby-%D7%92%D7%95%D7%91%D7%99%D7%99%D7%91%D7%99-%D7%94%D7%95%D7%A8%D7%95%D7%AA-%D7%9E%D7%A9%D7%95%D7%AA%D7%A4%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%94%D7%92%D7%93%D7%95%D7%9C-%D7%91%D7%99%D7%A9%D7%A8%D7%90%D7%9C-91665974500
-"><img src="https://m.zigzug.co.il/images/facebook.png"></a>
-            </div>
-        </div>
+
         <button id="menuToggle" menuToggle="right">
+<!--
             <ion-icon id="menu"></ion-icon>
+-->
+            <ion-icon class="menu-icon" name="menu"></ion-icon>
         </button>
         <button (click)="homePage()" class="logo"><img src="assets/img/icons/logo.png" alt="sugardaddy"></button>
     </ion-navbar>
@@ -23,7 +18,7 @@
 <ion-menu side="right" [content]="content" class="side-menu" id="menu1">
     <ion-content>
         <ion-list>
-            <div class="menu-top" *ngIf="is_login" >
+            <div class="menu-top" *ngIf="is_login">
                 <ion-icon class="settings" name="settings" (click)="menu2Active()"></ion-icon>
                 <div (click)="openPage(menu_items_settings[1])" class="profile"
                      *ngIf="avatar == '/images/no_photo_2.jpg' || avatar == '/images/no_photo_1.jpg'"
@@ -36,7 +31,8 @@
                 <div (click)="openPage(menu_items_settings[2])" class="username">{{ username }}</div>
             </div>
             <div *ngFor="let menu_item of menu_items">
-                <button *ngIf="(menu_item._id == 'subscribe' && isPaying == 0) || menu_item._id != 'subscribe'" ion-item (click)="openPage(menu_item)">
+                <button *ngIf="(menu_item._id == 'subscribe' && api.isPaying == 0) || menu_item._id != 'subscribe'"
+                        ion-item (click)="openPage(menu_item)">
                     <ion-icon id="{{menu_item._id}}" name="{{menu_item.icon}}"></ion-icon>
                     {{menu_item.title}}
                     <ion-icon class="contact-arrow" *ngIf="menu_item._id == 'stats'" ios="ios-arrow-forward"
@@ -45,6 +41,20 @@
                         }}
                     </ion-badge>
                 </button>
+            </div>
+            <div class="social">
+                <div class="telegram">
+                    <a target="_blank" href="https://t.me/gobabycoil"><img
+                            src="https://m.zigzug.co.il/images/telegram.png"></a>
+                </div>
+                <div class="facebook">
+                    <a target="_blank" href="https://www.facebook.com/Gobaby-%D7%92%D7%95%D7%91%D7%99%D7%99%D7%91%D7%99-%D7%94%D7%95%D7%A8%D7%95%D7%AA-%D7%9E%D7%A9%D7%95%D7%AA%D7%A4%D7%AA-%D7%91%D7%90%D7%AA%D7%A8-%D7%94%D7%92%D7%93%D7%95%D7%9C-%D7%91%D7%99%D7%A9%D7%A8%D7%90%D7%9C-91665974500
+"><img src="https://m.zigzug.co.il/images/facebook.png"></a>
+                </div>
+                <div class="instagram">
+                    <a target="_blank" href="https://www.instagram.com/gobaby_official/
+"><img src="https://m.dating4disabled.com/images/instagram.png"></a>
+                </div>
             </div>
         </ion-list>
     </ion-content>
@@ -93,8 +103,10 @@
 </ion-menu>
 <!--<img style="display: none;" class="banner" src="/images/spedate1.gif">-->
 
-<a class="link-banner"  *ngIf="api.banner?.src && api.banner?.link && is_login" href="{{api.banner?.link}}" (click)="goTo();">
-        <img class="banner" src="{{api.banner?.src}}">"#"
+<a class="link-banner"
+   *ngIf="api.banner?.isActive == 1 && ((api.banner?.onlyNotPayed == false) || ( api.banner?.onlyNotPayed == true && api.banner?.isPayed == 0))"
+   (click)="goTo(api.banner?.link);">
+    <img class="banner" src="{{api.banner?.src}}">
 </a>
 <ion-footer *ngIf="is_login" (swipe)="swipeFooterMenu()">
     <!--<div *ngIf="new_message && new_message.is_not_sent_today == true" class="messageNotify">
@@ -118,7 +130,8 @@
                 </li>
                 <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
                     (click)="openPage(menu_item_footer1)"><span
-                        *ngIf="is_login && menu_item_footer1?.count && menu_item_footer1.count != 0 " class="inbox_count">{{ menu_item_footer1.count }}</span>
+                        *ngIf="is_login && menu_item_footer1?.count && menu_item_footer1.count != 0 "
+                        class="inbox_count">{{ menu_item_footer1.count }}</span>
                     <ion-icon name="{{menu_item_footer1.icon}}"></ion-icon>
                     <img class="{{menu_item_footer1._id}}" src="{{menu_item_footer1.src_img}}">{{menu_item_footer1.title}}
                 </li>
@@ -127,7 +140,8 @@
                 <li *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
                     (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
                     <ion-icon name="{{menu_item_footer2.icon}}"></ion-icon>
-                    <span *ngIf="is_login && menu_item_footer2?.count && menu_item_footer2.count != 0" class="inbox_count">{{ menu_item_footer2.count }}</span>
+                    <span *ngIf="is_login && menu_item_footer2?.count && menu_item_footer2.count != 0"
+                          class="inbox_count">{{ menu_item_footer2.count }}</span>
                     <img class="{{menu_item_footer2._id}}" src="{{menu_item_footer2.src_img}}">{{menu_item_footer2.title}}
                 </li>
             </ul>

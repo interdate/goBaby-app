@@ -98,7 +98,7 @@
         <ion-item class="border-top">
             <ion-label>{{form?.purpose.label}}</ion-label>
             <ion-select multiple="true" okText="אישור" cancelText="ביטול" item-content [(ngModel)]="form?.purpose.value">
-                <ion-option value="{{child.value}}" *ngFor="let child of form?.purpose.choices">{{child.label}}
+                <ion-option value="{{child.val}}" *ngFor="let child of form?.purpose.choices">{{child.label}}
                 </ion-option>
             </ion-select>
         </ion-item>
@@ -151,7 +151,7 @@
         <ion-item class="border-top">
             <ion-label>{{form.drinking.label}}</ion-label>
             <ion-select okText="אישור" cancelText="ביטול" multiple="true" [(ngModel)]="form.drinking.value">
-                <ion-option value="{{ child.value }}" *ngFor="let child of form.drinking.choices">{{child.label}}
+                <ion-option value="{{ child.val }}" *ngFor="let child of form.drinking.choices">{{child.label}}
                 </ion-option>
             </ion-select>
         </ion-item>

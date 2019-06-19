@@ -28,10 +28,21 @@
 #menuToggle {
   position: absolute;
   right: 16px;
+  background-color: #e5399b;
+  padding: 0 6px;
+  border-radius: 4px;
 }
 
 .social {
-  float: left;
+  .telegram {
+    img {
+      transform: scale(1.2);
+    }
+  }
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-around;
+  /*float: left;
   margin-top: 4px;
   position: absolute;
   left: 4px;
@@ -51,19 +62,27 @@
   img {
     width: 40px;
     height: 40px;
-  }
+  }*/
 }
 
 .menu-top {
   margin-top: 43px;
 }
 
-.banner {
+.link-banner {
   position: absolute;
   bottom: 65px;
   z-index: 9;
   width: 80%;
-  right: 10%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+
+  .banner {
+    margin: 0 auto;
+    display: block;
+  }
 }
 
 /*.item-block{
@@ -601,6 +620,11 @@ ion-header button {
 * Side Menu
 */
 
+.menu-icon {
+  color: #fff;
+  font-size: 2.8em;
+}
+
 .menu-inner {
   transition-duration: 100ms !important;
 }
@@ -856,6 +880,10 @@ ion-header .toolbar-ios {
 }
 */
 
+ion-menu ion-list.list {
+  padding-bottom: 58px;
+}
+
 ion-header .toolbar-ios {
   height: 70px;
   direction: rtl !important;
@@ -864,6 +892,17 @@ ion-header .toolbar-ios {
 ion-footer.footer-md::before,
 ion-footer.footer-ios::before {
   background-image: none;
+}
+
+@media (max-width: 411px) {
+
+  .usr_profile .avatar {
+    height: 160px !important;
+  }
+
+  page-home .paying {
+    top: 162px !important;
+  }
 }
 
 @media (max-width: 375px) {

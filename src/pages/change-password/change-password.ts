@@ -74,8 +74,10 @@ export class ChangePasswordPage {
             }
             else{
                 //this.oldPassword = response.error.password.first;
-                this.first_pass = response.error.password.first;
-                this.second_pass = response.error.password.second;
+                console.log(response.error.password);
+                this.oldPassword = response.error.oldPassword;
+                this.first_pass = response.error.password.first ? response.error.password.first : '';
+                this.second_pass = response.error.password.second ? response.error.password.second : '';
             }
         }
     

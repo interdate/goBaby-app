@@ -55,7 +55,7 @@ export class ProfilePage {
         this.storage = storage;
 
         let loading = this.loadingCtrl.create({
-            content: 'אנא המתיני...'
+            content: 'אנא המתן...'
         });
 
         //loading.present();
@@ -91,9 +91,9 @@ export class ProfilePage {
         } else {
 
             this.storage.get('user_id').then((val) => {
-                //alert(val);
                 if (val) {
                     this.myId = val;
+                    console.log(this.myId);
                     this.http.get(api.url + '/user/profile/' + this.myId, api.setHeaders(true)).subscribe(data => {
                         this.user = data.json();
                         // if (this.photos.length < this.user.photos.length) {
@@ -265,7 +265,7 @@ export class ProfilePage {
     abuseSubmit() {
 
         let params = JSON.stringify({
-            text: this.formReportAbuse.text.value,
+            abuseMessage: this.formReportAbuse.text.value,
         });
 
         this.http.post(this.api.url + '/user/abuse/' + this.user.id, params, this.api.setHeaders(true)).subscribe(data => {
@@ -282,6 +282,10 @@ export class ProfilePage {
         this.reportAbuseClose();
     }
 
+    ionViewWillEnter() {
+        this.api.pageName = 'ProfilePage';
+        console.log(this.api.pageName)
+    }
 
     ionViewWillLeave() {
         $('.back-btn').hide();

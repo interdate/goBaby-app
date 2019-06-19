@@ -1,8 +1,16 @@
-import {Component, ViewChild} from '@angular/core';
-import {NavController, NavParams, LoadingController, ToastController, Events, InfiniteScroll, AlertController} from 'ionic-angular';
-import {Http} from '@angular/http';
-import {Storage} from '@ionic/storage';
-import {ApiQuery} from '../../library/api-query';
+import {Component, ViewChild} from "@angular/core";
+import {
+    NavController,
+    NavParams,
+    LoadingController,
+    ToastController,
+    Events,
+    InfiniteScroll,
+    AlertController
+} from "ionic-angular";
+import {Http} from "@angular/http";
+import {Storage} from "@ionic/storage";
+import {ApiQuery} from "../../library/api-query";
 import {ProfilePage} from "../profile/profile";
 declare var $: any;
 
@@ -64,7 +72,7 @@ export class HomePage {
             this.params = JSON.parse(this.params_str);
         }
 
-        if(!navParams.get('params') || navParams.get('params') == 'login'){
+        if (!navParams.get('params') || navParams.get('params') == 'login') {
             this.api.setLocation();
         }
 
@@ -110,43 +118,28 @@ export class HomePage {
     }
 
     addLike(user) {
-        if(user.isLike == '0') {
-            let alert = this.alertCtrl.create({
-                title: 'האם את בטוחה?',
-                buttons: [
-                    {
-                        text: 'לֹא',
-                        role: 'cancel'
-                    },
-                    {
-                        text: 'כן',
-                        handler: data => {
-                            if (user.isLike == false) {
 
-                                user.isLike = true;
+        if (user.isLike == false) {
 
-                                let toast = this.toastCtrl.create({
-                                    message: ' עשית לייק ל' + user.userNick,
-                                    duration: 5000
-                                });
+            user.isLike = true;
 
-                                toast.present();
-
-                                let params = JSON.stringify({
-                                    toUser: user.id,
-                                });
-
-                                this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-                                }, err => {
-                                    console.log("Oops!");
-                                });
-                            }
-                        }
-                    }
-                ]
+            let toast = this.toastCtrl.create({
+                message: ' עשית לייק ל' + user.userNick,
+                duration: 5000
             });
-            alert.present();
+
+            toast.present();
+
+            let params = JSON.stringify({
+                toUser: user.id,
+            });
+
+            this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+            }, err => {
+                console.log("Oops!");
+            });
         }
+
     }
 
     block(user, bool) {
@@ -195,22 +188,22 @@ export class HomePage {
 
     unFavorites(user) {
 
-            let params = JSON.stringify({
-                list: 'Unfavorite'
+        let params = JSON.stringify({
+            list: 'Unfavorite'
+        });
+
+        this.http.post(this.api.url + '/user/managelists/favi/0/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+            let toast = this.toastCtrl.create({
+                message: data.json().success,
+                duration: 3000
             });
 
-            this.http.post(this.api.url + '/user/managelists/favi/0/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-                let toast = this.toastCtrl.create({
-                    message: data.json().success,
-                    duration: 3000
-                });
+            console.log(this.users);
 
-                console.log(this.users);
-
-                toast.present();
-                this.users.splice(this.users.indexOf(user), 1);
-                this.events.publish('statistics:updated');
-            });
+            toast.present();
+            this.users.splice(this.users.indexOf(user), 1);
+            this.events.publish('statistics:updated');
+        });
 
     }
 
@@ -222,20 +215,20 @@ export class HomePage {
         if (user.isFav == false) {
             user.isFav = true;
 
-             params = JSON.stringify({
+            params = JSON.stringify({
                 list: 'Favorite'
             });
 
-             url = this.api.url + '/user/managelists/favi/1/' + user.id;
+            url = this.api.url + '/user/managelists/favi/1/' + user.id;
 
         } else {
             user.isFav = false;
 
-                params = JSON.stringify({
+            params = JSON.stringify({
                 list: 'Unfavorite'
             });
 
-                 url = this.api.url + '/user/managelists/favi/0/' + user.id;
+            url = this.api.url + '/user/managelists/favi/0/' + user.id;
         }
 
         this.http.post(url, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
@@ -249,27 +242,27 @@ export class HomePage {
         });
     }
 
-   /* addFavorites(user) {
+    /* addFavorites(user) {
 
-        if (user.isFav == false) {
-            user.isFav = true;
+     if (user.isFav == false) {
+     user.isFav = true;
 
 
-            let params = JSON.stringify({
-                list: 'Favorite'
-            });
+     let params = JSON.stringify({
+     list: 'Favorite'
+     });
 
-            this.http.post(this.api.url + '/user/managelists/favi/1/'+ user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-                let toast = this.toastCtrl.create({
-                    message: data.json().success,
-                    duration: 3000
-                });
+     this.http.post(this.api.url + '/user/managelists/favi/1/'+ user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+     let toast = this.toastCtrl.create({
+     message: data.json().success,
+     duration: 3000
+     });
 
-                toast.present();
-                this.events.publish('statistics:updated');
-            });
-        }
-    }*/
+     toast.present();
+     this.events.publish('statistics:updated');
+     });
+     }
+     }*/
 
     sortBy() {
 
@@ -280,7 +273,14 @@ export class HomePage {
             list: '',
             filter: this.filter,
             page: 1,
-            searchparams: {region: this.params.searchparams.region, agefrom: this.params.searchparams.agefrom, ageto: this.params.searchparams.ageto, sexpreef: this.params.searchparams.sexpreef, meritalstat: this.params.searchparams.meritalstat, userNick: this.params.searchparams.userNick}
+            searchparams: {
+                region: this.params.searchparams.region,
+                agefrom: this.params.searchparams.agefrom,
+                ageto: this.params.searchparams.ageto,
+                sexpreef: this.params.searchparams.sexpreef,
+                meritalstat: this.params.searchparams.meritalstat,
+                userNick: this.params.searchparams.userNick
+            }
 
         });
 
@@ -290,7 +290,14 @@ export class HomePage {
                 list: this.params.list,
                 filter: this.filter,
                 page: 1,
-                searchparams: {region: this.params.searchparams.region, agefrom: this.params.searchparams.agefrom, ageto: this.params.searchparams.ageto, sexpreef: this.params.searchparams.sexpreef, meritalstat: this.params.searchparams.meritalstat, userNick: this.params.searchparams.userNick}
+                searchparams: {
+                    region: this.params.searchparams.region,
+                    agefrom: this.params.searchparams.agefrom,
+                    ageto: this.params.searchparams.ageto,
+                    sexpreef: this.params.searchparams.sexpreef,
+                    meritalstat: this.params.searchparams.meritalstat,
+                    userNick: this.params.searchparams.userNick
+                }
             })
         }
 
@@ -303,7 +310,7 @@ export class HomePage {
     getUsers() {
 
         let loading = this.loadingCtrl.create({
-            content: 'אנא המתיני...'
+            content: 'אנא המתן...'
         });
 
         if (this.navParams.get('params') == 'login') {

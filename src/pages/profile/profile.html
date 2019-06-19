@@ -60,10 +60,6 @@
                         <span class="two">{{user.children?.value }}</span>
                     </li>
 
-                    <li *ngIf="user.sexPreference?.value"><span class="one">{{user.sexPreference?.label }}</span>
-                        <span class="two">{{user.sexPreference?.value }}</span>
-                    </li>
-
                     <li *ngIf="user.selfdef?.value"><span class="one">{{user.selfdef?.label }}</span>
                         <span class="two">{{user.selfdef?.value }}</span>
                     </li>
@@ -104,6 +100,10 @@
                             class="two">{{user.ethnicity?.value }}</span>
                     </li>
 
+                    <li *ngIf="user.sexPreference?.value"><span class="one">{{user.sexPreference?.label }}</span>
+                        <span class="two">{{user.sexPreference?.value }}</span>
+                    </li>
+
                     <li *ngIf="user.portability?.value"><span class="one">{{user.portability?.label }}</span><span
                             class="two">{{user.portability?.value }}</span>
                     </li>
@@ -141,8 +141,8 @@
                         <span class="two">{{user.sport?.value }}</span>
                     </li>
 
-                    <li *ngIf="user.food?.value"><span class="one">{{user.food?.label }}</span>
-                        <span class="two">{{user.food?.value }}</span>
+                    <li *ngIf="user.diet?.value"><span class="one">{{user.diet?.label }}</span>
+                        <span class="two">{{user.diet?.value }}</span>
                     </li>
 
                     <li *ngIf="user.animals?.value"><span class="one">{{user.animals?.label }}</span>
@@ -182,12 +182,12 @@
 
                     <div *ngIf="user.about?.value" class="profile-sub-title">{{user.about?.label }}</div>
                     <li *ngIf="user.about?.value">
-                        <span id="user-about" class="three">{{user.about?.value}}<!--{{setHtml('user-about',user.about?.value) }}--></span>
+                        <span id="user-about" class="three" [innerHTML]="user.about?.value"><!--{{setHtml('user-about',user.about?.value) }}--></span>
                     </li>
 
                     <div class="profile-sub-title">{{user.lookingFor?.label }}</div>
                     <li *ngIf="user.lookingFor?.value">
-                        <span id="user-lookingFor">{{user.lookingFor?.value}} <!--{{ setHtml('user-lookingFor',user.lookingFor?.value )}}--></span>
+                        <span id="user-lookingFor" [innerHTML]="user.lookingFor?.value"> <!--{{ setHtml('user-lookingFor',user.lookingFor?.value )}}--></span>
                     </li>
 
 

@@ -26,15 +26,9 @@ export class InboxPage {
                 public loadingCtrl: LoadingController,
                 public api: ApiQuery) {
 
-        let loading = this.loadingCtrl.create({
-            content: 'אנא המתיני...'
-        });
-        loading.present();
 
-        this.http.get(this.api.url + '/user/contacts/perPage:200/page:1', this.api.setHeaders(true)).subscribe(data => {
-            this.users = data.json().allChats;
-            loading.dismiss();
-        });
+
+
     }
 
     ionViewDidLoad() {
@@ -42,6 +36,14 @@ export class InboxPage {
     }
 
     ionViewWillEnter() {
+        let loading = this.loadingCtrl.create({
+            content: 'אנא המתן...'
+        });
+        loading.present();
+        this.http.get(this.api.url + '/user/contacts/perPage:200/page:1', this.api.setHeaders(true)).subscribe(data => {
+            this.users = data.json().allChats;
+            loading.dismiss();
+        });
         this.api.pageName = 'InboxPage';
     }
 

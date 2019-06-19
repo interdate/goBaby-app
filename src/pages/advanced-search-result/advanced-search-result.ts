@@ -82,40 +82,28 @@ export class AdvancedSearchResultPage {
     }
 
     addLike(user) {
-        if (user.isLike == '0') {
-            let alert = this.alertCtrl.create({
-                title: 'האם את בטוחה?',
-                buttons: [
-                    {
-                        text: 'לֹא',
-                        role: 'cancel'
-                    },
-                    {
-                        text: 'כן',
-                        handler: data => {
-                            user.isAddLike = true;
-                            let toast = this.toastCtrl.create({
-                                message: ' עשית לייק ל' + user.userNick,
-                                duration: 2000
-                            });
 
-                            toast.present();
+        if (user.isLike == false) {
 
-                            let params = JSON.stringify({
-                                toUser: user.id,
-                            });
+            user.isLike = true;
 
-                            this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-                                console.log(data);
-                            }, err => {
-                                console.log("Oops!");
-                            });
-                        }
-                    }
-                ]
+            let toast = this.toastCtrl.create({
+                message: ' עשית לייק ל' + user.userNick,
+                duration: 5000
             });
-            alert.present();
+
+            toast.present();
+
+            let params = JSON.stringify({
+                toUser: user.id,
+            });
+
+            this.http.post(this.api.url + '/user/like/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+            }, err => {
+                console.log("Oops!");
+            });
         }
+
     }
 
     block(user, bool) {
@@ -153,25 +141,37 @@ export class AdvancedSearchResultPage {
 
     addFavorites(user) {
 
-        if (user.isAddFavorite == false) {
+        let url;
+        let params;
 
-            user.isAddFavorite = true;
+        if (user.isFav == false) {
+            user.isFav = true;
 
-            let toast = this.toastCtrl.create({
-                message: 'The user has been added to Favorites',
-                duration: 2000
-            });
-
-            toast.present();
-
-            let params = JSON.stringify({
+            params = JSON.stringify({
                 list: 'Favorite'
             });
 
-            this.http.post(this.api.url + '/user/favorites/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-                this.events.publish('statistics:updated');
+            url = this.api.url + '/user/managelists/favi/1/' + user.id;
+
+        } else {
+            user.isFav = false;
+
+            params = JSON.stringify({
+                list: 'Unfavorite'
             });
+
+            url = this.api.url + '/user/managelists/favi/0/' + user.id;
         }
+
+        this.http.post(url, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
+            let toast = this.toastCtrl.create({
+                message: data.json().success,
+                duration: 3000
+            });
+
+            toast.present();
+            this.events.publish('statistics:updated');
+        });
     }
 
     sortBy() {
