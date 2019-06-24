@@ -25,7 +25,7 @@ export class SubscriptionPage {
 
         api.storage.get('user_id').then((val) => {
             if (val) {
-                let browser = this.iab.create('https://m.gobaby.co.il/subscription/?userId=' + val + '&out=2','_blank');
+                let browser = this.iab.create('https://m.gobaby.co.il/subscription/?userId=' + val + '&out=2&mobile=2','_blank');
 
                 let that = this;
 

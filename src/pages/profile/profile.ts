@@ -11,7 +11,7 @@ import {
 import {Http} from "@angular/http";
 import {ApiQuery} from "../../library/api-query";
 import {Storage} from "@ionic/storage";
-declare var $: any;
+import * as $ from "jquery";
 /**
  * Generated class for the ProfilePage page.
  *

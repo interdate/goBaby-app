@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {IonicPage, NavController, NavParams, ToastController, AlertController} from "ionic-angular";
 import {ApiQuery} from "../../library/api-query";
 import {Http} from "@angular/http";
-declare var $: any;
+import * as $ from "jquery";
 
 /**
  * Generated class for the FullScreenProfilePage page.

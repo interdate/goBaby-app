@@ -17,7 +17,7 @@ import {ProfilePage} from "../profile/profile";
  * Ionic pages and navigation.
  */
 
-declare var $: any;
+import * as $ from "jquery";
 
 @IonicPage()
 @Component({

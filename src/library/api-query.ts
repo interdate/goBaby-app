@@ -38,8 +38,8 @@ export class ApiQuery {
                 public modalCtrl: ModalController,
                 public plt: Platform) {
         //this.url = 'http://10.0.0.6:8100';
-       this.url = 'http://localhost:8100';
-        //this.url = 'https://m.gobaby.co.il/api/v6';
+        //this.url = 'http://localhost:8100';
+        this.url = 'https://m.gobaby.co.il/api/v6';
         this.storage.get('user_id').then((val) => {
             this.storage.get('username').then((username) => {
                 this.username = username;
@@ -70,16 +70,17 @@ export class ApiQuery {
      *  Set User's Current Location
      */
     setLocation() {
+        if(this.password) {
+            this.geolocation.getCurrentPosition().then((pos) => {
+                var params = JSON.stringify({
+                    latitude: '' + pos.coords.latitude + '',
+                    longitude: '' + pos.coords.longitude + ''
+                });
 
-        this.geolocation.getCurrentPosition().then((pos) => {
-            var params = JSON.stringify({
-                latitude: '' + pos.coords.latitude + '',
-                longitude: '' + pos.coords.longitude + ''
+                this.http.post(this.url + '/user/location', params, this.setHeaders(true)).subscribe(data => {
+                });
             });
-
-            this.http.post(this.url + '/user/location', params, this.setHeaders(true)).subscribe(data => {
-            });
-        });
+        }
     }
 
 

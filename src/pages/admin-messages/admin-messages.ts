@@ -10,7 +10,7 @@ import {ApiQuery} from "../../library/api-query";
  * Ionic pages and navigation.
  */
 
-declare var $: any;
+import * as $ from "jquery";
 
 @IonicPage()
 @Component({

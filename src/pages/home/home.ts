@@ -12,7 +12,7 @@ import {Http} from "@angular/http";
 import {Storage} from "@ionic/storage";
 import {ApiQuery} from "../../library/api-query";
 import {ProfilePage} from "../profile/profile";
-declare var $: any;
+import * as $ from "jquery";
 
 @Component({
     selector: 'page-home',
@@ -32,7 +32,7 @@ export class HomePage {
     blocked_img: any = false;
     user_counter: any = 0;
     form_filter: any;
-    filter: any; //= {filter: '', visible: ''}
+    filter: any;// = {filter: '', visible: ''}
     users: any;//Array<{ id: string, isOnline: string, isAddBlackListed: string, nickName: string, photo: string, age: string, region_name: string, image: string, about: {}, component: any}>;
     texts: { like: string, add: string, message: string, remove: string, unblock: string, no_results: string };
     params: { action: any, filter: any, page: any, list: any, searchparams: any }
@@ -46,6 +46,7 @@ export class HomePage {
     params_str: any;
     scrolling = false;
     selectOptions = {title: 'popover select'};
+    //public  options: any;
 
     constructor(public toastCtrl: ToastController,
                 public loadingCtrl: LoadingController,

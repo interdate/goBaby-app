@@ -28,7 +28,7 @@ import {ProfilePage} from "../pages/profile/profile";
 import {AppVersion} from "@ionic-native/app-version";
 
 
-declare var $: any;
+import * as $ from "jquery";
 
 @Component({
     templateUrl: 'app.html',
@@ -46,13 +46,13 @@ export class MyApp {
     rootPage: any;
     banner: any;
     //rootPage = LoginPage;
-    menu_items_logout: Array<{_id: string, icon: string, title: string, count: any, component: any}>;
-    menu_items_login: Array<{_id: string, icon: string, title: string, count: any, component: any}>;
-    menu_items: Array<{_id: string, icon: string, title: string, count: any, component: any}>;
-    menu_items_settings: Array<{_id: string, icon: string, title: string, count: any, component: any}>;
-    menu_items_contacts: Array<{_id: string, list: string, icon: string, title: string, count: any, component: any}>;
-    menu_items_footer1: Array<{_id: string, src_img: string, list: string, icon: string, count: any, title: string, component: any}>;
-    menu_items_footer2: Array<{_id: string, src_img: string, list: string, icon: string, title: string, count: any, component: any}>;
+    menu_items_logout: any;// Array<{_id: string, icon: string, title: string, count: any, component: any}>;
+    menu_items_login: any;//Array<{_id: string, icon: string, title: string, count: any, component: any}>;
+    menu_items: any;//Array<{_id: string, icon: string, title: string, count: any, component: any}>;
+    menu_items_settings: any;//Array<{_id: string, icon: string, title: string, count: any, component: any}>;
+    menu_items_contacts: any;//Array<{_id: string, list: string, icon: string, title: string, count: any, component: any}>;
+    menu_items_footer1: any;//Array<{_id: string, src_img: string, list: string, icon: string, count: any, title: string, component: any}>;
+    menu_items_footer2: any;//Array<{_id: string, src_img: string, list: string, icon: string, title: string, count: any, component: any}>;
 
     activeMenu: string;
     username: any;

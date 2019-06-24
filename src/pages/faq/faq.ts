@@ -11,7 +11,7 @@ import * as $ from 'jquery';
  * Ionic pages and navigation.
  */
 
-//declare var $: any;
+//import * as $ from "jquery";
 
 @IonicPage()
 @Component({
