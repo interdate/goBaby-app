@@ -22,13 +22,23 @@ import {LoginPage} from "../pages/login/login";
 import {RegisterPage} from "../pages/register/register";
 import {ChangePhotosPage} from "../pages/change-photos/change-photos";
 import {SettingsPage} from "../pages/settings/settings";
-import {InboxPage} from "../pages/inbox/inbox";
 import {SubscriptionPage} from "../pages/subscription/subscription";
 import {ProfilePage} from "../pages/profile/profile";
+import {InboxPage} from "../pages/inbox/inbox";
+import {ArenaPage} from "../pages/arena/arena";
+import {NotificationsPage} from "../pages/notifications/notifications";
 import {AppVersion} from "@ionic-native/app-version";
 
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 import * as $ from "jquery";
+import {SearchPage} from "../pages/search/search";
+import {FaqPage} from "../pages/faq/faq";
+import {ContactUsPage} from "../pages/contact-us/contact-us";
+import {DialogPage} from "../pages/dialog/dialog";
+import {ActivationPage} from "../pages/activation/activation";
+import {FreezeAccountPage} from "../pages/freeze-account/freeze-account";
+import {ChangePasswordPage} from "../pages/change-password/change-password";
 
 @Component({
     templateUrl: 'app.html',
@@ -66,6 +76,7 @@ export class MyApp {
     avatar: string = '';
     stats: string = '';
     interval: any = true;
+    push2: PushObject;
 
     constructor(public platform: Platform,
                 public menu: MenuController,
@@ -74,6 +85,7 @@ export class MyApp {
                 public http: Http,
                 public statusBar: StatusBar,
                 public api: ApiQuery,
+                public iab: InAppBrowser,
                 public storage: Storage,
                 public toastCtrl: ToastController,
                 public alertCtrl: AlertController,
@@ -99,9 +111,9 @@ export class MyApp {
                     this.rootPage = LoginPage;
                     this.menu_items = this.menu_items_logout;
                 } else {
+                    this.rootPage = HomePage;
                     this.menu_items = this.menu_items_login;
                     this.getBingo();
-                    this.rootPage = HomePage;
                 }
             });
         });
@@ -121,10 +133,71 @@ export class MyApp {
 
         this.initializeApp();
         this.menu1Active();
-        this.getAppVersion();
     }
 
     getAppVersion() {
+        this.http.get(this.api.url + '/open_api/version', this.api.header).subscribe(data => {
+
+            //console.log(data.json().android.version );
+
+            //alert(this.appVersion.getVersionCode());
+            this.appVersion.getVersionNumber().then((s) => {
+                console.log(1111);
+                console.log(data.json());
+
+                if (data.json().android.version != s && this.platform.is('android')) {
+                    let prompt = this.alertCtrl.create({
+                        title: data.json().title,
+                        message: data.json().message,
+                        cssClass: 'new-version',
+                        buttons: [
+                            {
+                                text: data.json().cancel,
+                                handler: data => {
+                                    console.log('Cancel clicked');
+                                }
+                            },
+                            {
+                                text: data.json().update,
+                                handler: () => {
+                                    window.open('market://details?id=com.interdate.gobaby', '_system');
+                                }
+                            }
+                        ]
+                    });
+                    prompt.present();
+                } else if (data.json().ios.version != s && this.platform.is('ios')) {
+
+
+                    let prompt = this.alertCtrl.create({
+                        title: data.json().title,
+                        message: data.json().message,
+                        cssClass: 'new-version',
+                        buttons: [
+                            {
+                                text: data.json().cancel,
+                                handler: data => {
+                                    console.log('Cancel clicked');
+                                }
+                            },
+                            {
+                                text: data.json().update,
+                                handler: () => {
+                                    console.log(2222);
+                                    console.log(data.json());
+                                    window.open('market://details?id=il.co.gobaby', '_system');
+                                    //this.iab.create('market://details?id=il.co.gobaby','_system');
+                                }
+                            }
+                        ]
+                    });
+                    prompt.present();
+                }
+            });
+        });
+    }
+
+ /*   getAppVersion() {
 
         this.http.get(this.api.url + '/open_api/version', this.api.header).subscribe(data => {
 
@@ -157,7 +230,7 @@ export class MyApp {
 
         });
 
-    }
+    }*/
 
     closeMsg() {
         this.new_message = '';
@@ -178,7 +251,7 @@ export class MyApp {
                     headers = this.api.setHeaders(true, false, false, '1');
                 }
 
-                this.http.get(this.api.url + '/user/statistics/', this.api.setHeaders(true)).subscribe(data => {
+                this.http.get(this.api.url + '/user/statistics/',headers).subscribe(data => {
 
                     let statistics = data.json().statistics;
 
@@ -201,6 +274,9 @@ export class MyApp {
                     this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
                     //this.menu_items_footer2[2].count = 0;
                     this.menu_items_footer1[3].count = statistics.newMessagesNumber;
+                    if(typeof this.push2 != 'undefined') {
+                        this.push2.setApplicationIconBadgeNumber(statistics.newMessagesNumber);
+                    }
                     this.menu_items_footer2[0].count = statistics.fav;//favorited
                     this.menu_items_footer2[1].count = statistics.favedme;//favoritedMe
 
@@ -261,22 +337,22 @@ export class MyApp {
         ];
 
         this.menu_items = [
-            {_id: 'inbox', icon: '', title: menu.inbox, component: 'InboxPage', count: ''},
-            {_id: 'the_area', icon: '', title: menu.the_arena, component: 'ArenaPage', count: ''},
-            {_id: 'notifications', icon: '', title: menu.notifications, component: 'NotificationsPage', count: ''},
+            {_id: 'inbox', icon: '', title: menu.inbox, component: InboxPage, count: ''},
+            {_id: 'the_area', icon: '', title: menu.the_arena, component: ArenaPage, count: ''},
+            {_id: 'notifications', icon: '', title: menu.notifications, component: NotificationsPage, count: ''},
             {_id: 'stats', icon: 'stats', title: menu.contacts, component: ProfilePage, count: ''},
-            {_id: 'search', icon: '', title: menu.search, component: 'SearchPage', count: ''},
-            {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', component: 'FaqPage', count: ''},
+            {_id: 'search', icon: '', title: menu.search, component: SearchPage, count: ''},
+            {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', component: FaqPage, count: ''},
         ];
 
         this.menu_items_login = [
-            {_id: 'inbox', icon: '', title: menu.inbox, component: 'InboxPage', count: ''},
-            {_id: 'the_area', icon: '', title: menu.the_arena, component: 'ArenaPage', count: ''},
-            {_id: 'notifications', icon: '', title: menu.notifications, component: 'NotificationsPage', count: ''},
+            {_id: 'inbox', icon: '', title: menu.inbox, component: InboxPage, count: ''},
+            {_id: 'the_area', icon: '', title: menu.the_arena, component: ArenaPage, count: ''},
+            {_id: 'notifications', icon: '', title: menu.notifications, component: NotificationsPage, count: ''},
             {_id: 'stats', icon: 'stats', title: menu.contacts, component: ProfilePage, count: ''},
-            {_id: 'search', icon: '', title: menu.search, component: 'SearchPage', count: ''},
-            {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', component: 'FaqPage', count: ''},
-            {_id: '', icon: 'mail', title: menu.contact_us, component: 'ContactUsPage', count: ''},
+            {_id: 'search', icon: '', title: menu.search, component: SearchPage, count: ''},
+            {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', component: FaqPage, count: ''},
+            {_id: '', icon: 'mail', title: menu.contact_us, component: ContactUsPage, count: ''},
             {_id: 'subscribe', icon: 'ribbon', title: 'רכישת מנוי', component: SubscriptionPage, count: ''},
 
         ];
@@ -285,8 +361,8 @@ export class MyApp {
             {_id: 'edit_profile', icon: '', title: menu.edit_profile, component: RegisterPage, count: ''},
             {_id: 'edit_photos', icon: '', title: menu.edit_photos, component: ChangePhotosPage, count: ''},
             {_id: '', icon: 'person', title: menu.view_my_profile, component: ProfilePage, count: ''},
-            {_id: 'change_password', icon: '', title: menu.change_password, component: 'ChangePasswordPage', count: ''},
-            {_id: 'freeze_account', icon: '', title: menu.freeze_account, component: 'FreezeAccountPage', count: ''},
+            {_id: 'change_password', icon: '', title: menu.change_password, component: ChangePasswordPage, count: ''},
+            {_id: 'freeze_account', icon: '', title: menu.freeze_account, component: FreezeAccountPage, count: ''},
             {_id: 'settings', icon: '', title: menu.settings, component: SettingsPage, count: ''},
             //{_id: '', icon: 'mail', title: menu.contact_us, component: 'ContactUsPage', count: ''},
             {_id: 'logout', icon: 'log-out', title: menu.log_out, component: LoginPage, count: ''}
@@ -372,7 +448,7 @@ export class MyApp {
                 icon: '',
                 list: '',
                 title: menu.inbox,
-                component: 'InboxPage',
+                component: InboxPage,
                 count: ''
             },
         ];
@@ -402,7 +478,7 @@ export class MyApp {
                 list: '',
                 icon: '',
                 title: menu.notifications,
-                component: 'NotificationsPage',
+                component: NotificationsPage,
                 count: ''
             },
             {
@@ -411,7 +487,7 @@ export class MyApp {
                 icon: '',
                 title: menu.search,
                 list: '',
-                component: 'SearchPage',
+                component: SearchPage,
                 count: ''
             },
         ];
@@ -480,7 +556,7 @@ export class MyApp {
 
         const options: PushOptions = {
             android: {
-                senderID: "778112311036"
+                //senderID: "778112311036"
             },
             ios: {
                 alert: 'true',
@@ -493,24 +569,25 @@ export class MyApp {
             }
         };
 
-        const push2: PushObject = this.push.init(options);
+        this.push2 = this.push.init(options);
 
-        push2.on('registration').subscribe((data) => {
+        this.push2.on('registration').subscribe((data) => {
             //this.deviceToken = data.registrationIdalert();
             this.storage.set('deviceToken', data.registrationId);
             this.api.sendPhoneId(data.registrationId);
             //TODO - send device token to server
         });
 
-        push2.on('notification').subscribe((data) => {
+        this.push2.on('notification').subscribe((data) => {
             //let self = this;
             //if user using app and push notification comes
+            console.log(JSON.stringify(data));
             if (data.additionalData.foreground == false) {
                 this.storage.get('user_id').then((val) => {
                     if (val) {
-                        this.nav.push('InboxPage');
+                        this.nav.push(InboxPage);
                     } else {
-                        this.nav.push('LoginPage');
+                        this.nav.push(LoginPage);
                     }
                 });
             }
@@ -541,13 +618,13 @@ export class MyApp {
     }
 
     getBanner() {
-        if (this.api.pageName != 'ArenaPage' && this.api.pageName != 'SearchPage' && this.api.pageName != 'DialogPage' && this.api.pageName != 'AdvancedSearchPage') {
+        if (this.api.pageName != 'ArenaPage' && this.api.pageName != 'ChangePhotosPage' && this.api.pageName != 'SearchPage' && this.api.pageName != 'DialogPage' && this.api.pageName != 'AdvancedSearchPage') {
             this.http.get(this.api.url + '/user/banner', this.api.header).subscribe(data => {
                 this.api.banner = data.json().banner;
             });
 
         } else {
-            this.api.banner = {src: '', link: '', onlyPayed: ''};
+            this.api.banner = {};
         }
         //this.content.resize();
     }
@@ -662,7 +739,7 @@ export class MyApp {
     dialogPage() {
         let user = {id: this.new_message.userId};
         this.closeMsg();
-        this.nav.push('DialogPage', {user: user});
+        this.nav.push(DialogPage, {user: user});
     }
 
     getMessage() {
@@ -704,10 +781,10 @@ export class MyApp {
                     toast.present();
                 }
                 //alert(page);
-                this.nav.push('RegisterPage');
+                this.nav.push(RegisterPage);
                 this.nav.push(ChangePhotosPage);
             } else if (this.status == 'not_activated') {
-                this.nav.push('ActivationPage');
+                this.nav.push(ActivationPage);
             }
         }
         if (((this.api.pageName == 'ActivationPage') && this.status == 'login')) {
@@ -720,6 +797,7 @@ export class MyApp {
         this.nav.viewDidEnter.subscribe((view) => {
 
             this.getBanner();
+            this.getAppVersion();
 
             this.events.subscribe('statistics:updated', () => {
                 // user and time are the same arguments passed in `events.publish(user, time)`
@@ -743,9 +821,10 @@ export class MyApp {
             }
 
             let el = this;
-            window.addEventListener('native.keyboardshow', function () {
+            window.addEventListener('native.keyboardshow', function (e) {
                 //let page = el.nav.getActive();
                 //this.keyboard.disabledScroll(true);
+                //alert(JSON.stringify(e));
                 $('.footerMenu, .back-btn, .link-banner').hide();
                 /*if (el.api.pageName != 'LoginPage' && el.api.pageName != 'DialogPage') {
                  $('.footer').hide();
@@ -798,11 +877,9 @@ export class MyApp {
             if (el.api.pageName == 'LoginPage') {
                 //clearInterval(this.interval);
                 this.interval = false;
-                $('ion-header').hide();
+                this.is_login = false
 
                 //this.avatar = '';
-            } else {
-                $('ion-header').show();
             }
             if (el.api.pageName == 'HomePage' && this.interval == false) {
                 //$('.link-banner').show();
@@ -831,16 +908,19 @@ export class MyApp {
                  }
                  */
 
-                $('.link-banner').hide();
+
 
                 if (el.api.pageName == 'HomePage' || el.api.pageName == 'InboxPage' || el.api.pageName == 'ProfilePage') {
                     $('.link-banner').show();
-                    console.log('11111');
+                }else{
+                    console.log(el.api.pageName);
+
+                    $('.link-banner').hide();
                 }
                 //this.bannerStatus();
 
             });
-            this.username = this.api.username;
+            this.username = this.api.username ? this.api.username : this.username;
         });
     }
 }

@@ -7,7 +7,6 @@ import {HomePage} from "../home/home";
 import {Page} from "../page/page";
 import {SelectPage} from "../select/select";
 import {ChangePhotosPage} from "../change-photos/change-photos";
-declare var setSelect2;
 
 @Component({
     selector: 'page-register',
@@ -30,7 +29,6 @@ export class RegisterPage {
         api.storage.get('status').then((val) => {
             this.login = val;
             this.user = this.navParams.get('user');
-            console.log(this.user);
             this.sendForm();
         });
     }
@@ -44,8 +42,10 @@ export class RegisterPage {
         //this.api.showLoad();
         var header = this.api.setHeaders((this.login == 'login') ? true : false);
 
+
         this.http.post(this.api.url + '/user/register', this.user, header).subscribe(
             data => {
+                console.log('Data :' + JSON.stringify(data));
 
                 //this.form = {};
                 $('#labelconfirmMails').remove();
@@ -62,7 +62,7 @@ export class RegisterPage {
                         password: this.user.userPass,
                         user_id: this.user.userId,
                         status: 'login',
-                        user_photo: 'https://www.shedate.co.il/images/users/small/0.jpg'
+                        user_photo: 'https://www.gobaby.co.il/images/users/small/0.jpg'
                     });
                     this.api.storage.set('status', 'login');
                     this.api.storage.set('user_id', this.user.userId);
@@ -88,34 +88,34 @@ export class RegisterPage {
                     this.api.hideLoad();
 
                     if (this.user.step == 2 && !this.user.register) {
+                        console.log(1);
                         this.api.storage.set('username', this.user.userNick);
                         this.api.setHeaders(true, this.user.userNick);
                     } else if (this.user.step == 2 && this.user.register) {
                         this.api.storage.set('new_user', true);
+                        console.log(1);
                     }
-                    this.form.fields.forEach(field => {
-                        if (field.type == 'select' /*&& (field.name == 'userCity' || field.name == 'countryOfOriginId')*/) {
-                            //this.select2(field, null);
-                        }
-                        if (field.type == 'selects') {
-                            field.sel.forEach(select => {
-                                //this.select2(select, select.choices[0].label);
-                            });
-                        }
-                    });
 
+                    this.api.showLoad();
+
+                    let that = this;
+                    setTimeout(function () {
+                        that.api.hideLoad();
+                    }, 300);
                     this.content.scrollToTop(300);
                 }
             }, err => {
                 this.errors = err._body;
                 this.api.hideLoad();
+                console.log('Error :' + JSON.stringify(err));
+
             }
         );
     }
 
 
     openSelect(field, index) {
-        if(typeof field == 'undefined'){
+        if (typeof field == 'undefined') {
             field = false;
         }
 
@@ -123,30 +123,21 @@ export class RegisterPage {
         profileModal.present();
 
         profileModal.onDidDismiss(data => {
-            console.log(data);
             if (data) {
                 let choosedVal = data.val.toString();
                 this.user[field.name] = choosedVal;
-                if(field.name.indexOf('userBirthday') == -1) {
+                if (field.name.indexOf('userBirthday') == -1) {
                     this.form.fields[index]['valLabel'] = data.label.toString();
                     this.form.fields[index]['val'] = choosedVal;
-                }else{
-                    for(let i=0; i<3; i++){
-                        if(field.name == this.form.fields[index]['sel'][i].name){
+                } else {
+                    for (let i = 0; i < 3; i++) {
+                        if (field.name == this.form.fields[index]['sel'][i].name) {
                             this.form.fields[index]['sel'][i]['valLabel'] = data.label;
                         }
                     }
                 }
             }
         });
-    }
-
-    select2(field, placeholder) {
-        setSelect2('#' + field.name,
-            {
-                placeholder: (typeof placeholder == 'undefined') ? "בחר מהרשימה" : placeholder
-            }
-        );
     }
 
     stepBack() {
@@ -174,8 +165,6 @@ export class RegisterPage {
     }
 
     ionViewWillEnter() {
-        this.api.pageName = 'RegisterPage';
-
 
         //this.api.activePageName = 'ContactPage';
         $('#back').show();
@@ -187,6 +176,7 @@ export class RegisterPage {
         });
 
         setTimeout(function () {
+
             if ($('div').hasClass('footerMenu')) {
             } else {
                 $('#register .fixed-content,#register .scroll-content').css({'margin-bottom': '0'});
@@ -196,21 +186,17 @@ export class RegisterPage {
     }
 
     ionViewWillLeave() {
+        $('.back-btn').hide();
         $('#contact').removeAttr('style');
         if (this.login == 'login') {
             $('.mo-logo').click();
         }
-
     }
 
-    inputClick(id) {
-
-        let that = this;
-        that.content.resize();
-        setTimeout(function () {
-            that.content.scrollTo(600, 0, 300);
-            $('#' + id).focus();
-        }, 400);
+    ionViewDidLoad() {
+        $('.back-btn').show();
+        this.api.pageName = 'RegisterPage';
+        console.log('ionViewDidLoad ' + this.api.pageName);
 
     }
 
@@ -218,6 +204,4 @@ export class RegisterPage {
         this.navCtrl.setRoot(HomePage);
         this.navCtrl.popToRoot();
     }
-
-
 }

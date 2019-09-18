@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, LoadingController} from 'ionic-angular';
 import {ApiQuery} from '../../library/api-query';
 import {Http} from '@angular/http';
+import * as $ from "jquery";
 
 /**
  * Generated class for the InboxPage page.
@@ -35,7 +36,14 @@ export class InboxPage {
         console.log('ionViewDidLoad InboxPage');
     }
 
+    ionViewWillLeave() {
+        $('.back-btn').hide();
+    }
+
     ionViewWillEnter() {
+        $('.back-btn').show();
+        $('.link-banner').hide();
+
         let loading = this.loadingCtrl.create({
             content: 'אנא המתן...'
         });

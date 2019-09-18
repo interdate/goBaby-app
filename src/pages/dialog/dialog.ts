@@ -177,6 +177,9 @@ export class DialogPage {
         });
 
         this.http.post(this.api.url + '/user/messenger/setMessagesAsRead', params, this.api.setHeaders(true)).subscribe(data => {
+            if(unreadMessages && unreadMessages > 0 ) {
+                this.scrollToBottom();
+            }
         });
     }
 
@@ -229,7 +232,7 @@ export class DialogPage {
 
             }, (error) => {
                 // handle error
-                //alert('err:' + JSON.stringify(error));
+                console.log('ERROR:' + JSON.stringify(error));
             });
 
         } else {
@@ -275,32 +278,29 @@ export class DialogPage {
 
         if (!this.check) {
             this.check = true;
-            if (this.device.platform == "iOS") {
-                this.filephat = this.file.dataDirectory.replace(/file:\/\//g, '');
-                this.filename = 'recordmg.mp3';//m4a
+            let directory = '';
 
+            if (this.device.platform == "iOS") {
+                this.filephat = this.file.tempDirectory.replace(/file:\/\//g, '');
+                this.filename =  'recordmg' + Math.random() + '.m4a';//3gp
+                directory = this.file.tempDirectory;
+                /*
                 let alert = this.alertCtrl.create({
                     title: 'file phat',
                     subTitle: this.file.dataDirectory.replace(/file:\/\//g, '') + '-phat for ios',
                     buttons: ['Dismiss']
                 });
-                // alert.present();
+                alert.present();
+                 */
 
             } else if (this.device.platform == "Android") {
                 this.filephat = "file:///storage/emulated/0/";
-                /*this.file.externalApplicationStorageDirectory;*/
                 this.filename = 'recordmg' + Math.random() + '.mp3';//3gp
-
-                let alert = this.alertCtrl.create({
-                    title: 'file phat',
-                    subTitle: /*this.file.externalApplicationStorageDirectory + '-phat for android'*/"file:///storage/emulated/0/",
-                    buttons: ['Dismiss']
-                });
-                //  alert.present();
+                directory = this.filephat;
             }
 
             // let audioObject: MediaObject;
-            this.file.createFile(this.filephat, this.filename, true).then(() => {
+            this.file.createFile(directory, this.filename, true).then(() => {
                 this.mediaobject = this.media.create(this.filephat + this.filename);
                 this.mediaobject.startRecord();
 
@@ -467,8 +467,6 @@ export class DialogPage {
                 }
                 this.userHasFreePoints = data.json().chat.userHasFreePoints;
 
-                let that = this;
-
 
                 if (data.json().isNewMess) {
                     this.scrollToBottom();
@@ -545,6 +543,7 @@ export class DialogPage {
         this.api.footer = false;
         this.api.pageName = 'DialogPage';
         $('.back-btn').show();
+        $('.link-banner').hide();
         $('.footerMenu').hide();
     }
 

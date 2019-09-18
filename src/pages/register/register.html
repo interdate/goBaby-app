@@ -42,8 +42,8 @@
         <form>
             <div *ngFor="let field of form?.fields; let i = index" [attr.data-index]="i">
 
-                <div class="field" *ngIf="field.type == 'submit'" style="text-align: center;">
-                    <button color="danger" ion-button full type="submit" (click)="sendForm();"
+                <div class="field" tappable (click)="sendForm();" *ngIf="field.type == 'submit'" style="text-align: center;">
+                        <button color="danger" ion-button full type="submit"
                             [ngClass]="{'small': user?.step > 1 && user?.register}" value="{{ field.label }}"
                             class="submit-big">{{ field.label }}
                     </button>
@@ -69,13 +69,6 @@
                     <ion-item>
                         <!--interface="popover"-->
                         <div class="select-value">{{field.valLabel}}</div>
-                        <!--<select class="select2 select" name="{{ field.name }}"
-                                [(ngModel)]="user[field.name]" id="{{ field.name }}">
-                            <option value=""></option>
-                            <option *ngFor="let option of field.choices" value="{{ option.val }}">{{
-                                option.label }}
-                            </option>
-                        </select>-->
                     </ion-item>
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
                 </div>
@@ -102,10 +95,9 @@
                     <div class="placeholder" [innerHTML]="field.label"></div>
                     <!--[ngClass]="{'yellow-bg':  err.userAboutMe.errors && err.userAboutMe.errors?.length != 0 }"-->
                     <ion-item>
-                         <textarea (ionFocus)="inputClick(field.name)" placeholder="{{ field.label }}"
+                         <ion-textarea tappable placeholder="{{ field.label }}"
                                    class="txtbox big" cols="2" rows="2"
-                                   name="{{ field.name }}" [(ngModel)]="user[field.name]"
-                                   id="{{ field.name }}"></textarea>
+                                   name="{{ field.name }}" [(ngModel)]="user[field.name]"></ion-textarea>
                     </ion-item>
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
                 </div>
@@ -127,14 +119,8 @@
                     <div class="placeholder">{{ field.label }}</div>
                     <!--[ngClass]="{'yellow-bg': err.experienceId0.errors && err.experienceId0.errors?.length != 0 }"-->
                     <div class="birthday">
-                        <ion-item *ngFor="let select of field.sel" (click)="openSelect(select,i)">
+                        <ion-item *ngFor="let select of field.sel" tappable (click)="openSelect(select,i)">
                             <div class="select-value">{{select.valLabel ? select.valLabel : select.placeholder}}</div>
-                            <!--<ion-select  name="{{ select.name }}"
-                                    [(ngModel)]="user[select.name]" id="{{ select.name }}">
-                                <ion-option *ngFor="let option of select.choices;"
-                                        value="{{ option.val }}">{{ option.label }}
-                                </ion-option>
-                            </ion-select>-->
                         </ion-item>
                     </div>
                     <div *ngIf="errors[field.name]" class="err">{{errors[field.name] }}</div>
@@ -161,7 +147,7 @@
                     <div class="placeholder">{{ field.label }}</div>
                     <div style="width:43%; padding: 7px 8px 7px 16px; float:right; overflow: hidden">
                         <input style="border: 0; padding: 7px 8px 7px 16px; border-radius: 5px;" type="text"
-                               (ionFocus)="inputClick(field.name1)" class="txtbox" [(ngModel)]="user[field.name1]"
+                                class="txtbox" [(ngModel)]="user[field.name1]"
                                name="{{ field.name1 }}"
                                id="{{ field.name1 }}" maxlength="3">
                     </div>
@@ -171,7 +157,7 @@
                     </div>
                     <div style="width:43%; padding: 7px 8px 7px 16px; overflow: hidden; float:right; border: 0">
                         <input style="border: 0; padding: 7px 8px 7px 16px; border-radius: 5px;"
-                               (ionFocus)="inputClick(field.name2)" type="text" class="txtbox"
+                               type="text" class="txtbox"
                                [(ngModel)]="user[field.name2]" name="{{ field.name2 }}"
                                id="{{ field.name2 }}" maxlength="3">
                     </div>

@@ -36,9 +36,9 @@
   
     </ion-slides>
     <div *ngIf="users?.length > 0" class="buttons">
-      <img src="assets/img/icons/redthumb.png" class="like-red" (click)="goToSlide('dislike')">
-      <img src="assets/img/icons/pmsg.png" (click)="toDialog()" id="send-msg">
-      <img src="assets/img/icons/thumbgreen.png" id="heart-green" (click)="goToSlide('like')">
+      <img src="assets/img/icons/redthumb.png" class="like-red" tappable (click)="goToSlide('dislike')">
+      <img src="assets/img/icons/pmsg.png" (click)="toDialog()" tappable id="send-msg">
+      <img src="assets/img/icons/thumbgreen.png" id="heart-green" tappable (click)="goToSlide('like')">
     </div>
   </ion-content>
   <ion-footer>

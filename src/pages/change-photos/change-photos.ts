@@ -14,6 +14,7 @@ import {ApiQuery} from "../../library/api-query";
 import {Http} from "@angular/http";
 import {Storage} from "@ionic/storage";
 import {HomePage} from "../home/home";
+import * as $ from "jquery";
 
 
 /**
@@ -110,11 +111,15 @@ export class ChangePhotosPage {
 
     getPageData() {
 
+        this.api.showLoad();
+
         this.http.get(this.api.url + '/user/images', this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
 
             this.dataPage = data.json();
             this.description = data.json().texts.description;
             this.photos = data.json().images.items;
+            this.api.hideLoad();
+
         }, err => {
             //alert(JSON.stringify(err));
         });
@@ -125,14 +130,14 @@ export class ChangePhotosPage {
     }
 
     postPageData(type, params) {//not active
-        var data: any;
+        var data: any, action;
         if (type == 'setMain') {
-            var action = "setMain";
+            action = "setMain";
             console.log('Param', params);
             data = JSON.stringify({setMain: params.id});
 
         } else if (type == 'deleteImage') {
-            var action = "delete";
+            action = "delete";
             data = JSON.stringify({
                 //delete: params.id
             });
@@ -315,7 +320,16 @@ export class ChangePhotosPage {
         this.navCtrl.push(HomePage);
     }
 
+
+    ionViewWillLeave() {
+        $('.back-btn').hide();
+    }
+
     ionViewDidLoad() {
+        $('.back-btn').show();
+        $('.link-banner').hide();
+        this.api.pageName = 'ChangePhotosPage';
+
         console.log('ionViewDidLoad ChangePhotosPage');
     }
 

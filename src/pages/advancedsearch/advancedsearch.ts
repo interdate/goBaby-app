@@ -4,6 +4,7 @@ import {Http} from "@angular/http";
 import {ApiQuery} from "../../library/api-query";
 import {AdvancedSearchResultPage} from "../advanced-search-result/advanced-search-result";
 import {SelectPage} from "../select/select";
+import * as $ from 'jquery';
 
 /**
  * Generated class for the AdvancedsearchPage page.
@@ -105,7 +106,6 @@ export class AdvancedsearchPage {
 
         profileModal.onDidDismiss(data => {
             if (data) {
-                let choosedVal = data.val.toString();
                 this.form.fields[index]['valLabel'] = data.label.toString();
 
             }
@@ -130,6 +130,11 @@ export class AdvancedsearchPage {
     }
 
     ionViewDidLoad() {
+        $('.back-btn').show();
         console.log('ionViewDidLoad AdvancedSearchPage');
+    }
+
+    ionViewWillLeave() {
+        $('.back-btn').hide();
     }
 }

@@ -1,11 +1,11 @@
 import {Component} from "@angular/core";
-import {IonicPage, NavController, NavParams, LoadingController, ToastController, Platform} from "ionic-angular";
+import {IonicPage, NavController, NavParams, LoadingController, ToastController} from "ionic-angular";
 import {HomePage} from "../home/home";
 import {ApiQuery} from "../../library/api-query";
 import {Storage} from "@ionic/storage";
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import {FingerprintAIO} from "@ionic-native/fingerprint-aio";
-import "rxjs/add/operator/catch";
+//import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 import {RegisterPage} from "../register/register";
 import * as $ from "jquery";
@@ -39,8 +39,7 @@ export class LoginPage {
                 public storage: Storage,
                 public loadingCtrl: LoadingController,
                 public toastCtrl: ToastController,
-                private faio: FingerprintAIO,
-                private platform: Platform) {
+                private faio: FingerprintAIO) {
 
         this.http.get(api.url + '/user/login/', api.setHeaders(false)).subscribe(data => {
             this.form = data.json();
@@ -61,6 +60,9 @@ export class LoginPage {
                 });
             });
 
+        }, err => {
+            //console.log(err.status);
+            //alert(JSON.stringify(err));
         });
 
         this.storage = storage;
@@ -125,25 +127,30 @@ export class LoginPage {
     }
 
     fingerAuthentication() {
+
         this.faio.show({
-            clientId: 'com.interdate.gobaby',
-            clientSecret: 'password', //Only necessary for Android
-        })
+                clientId: 'interdate',
+                clientSecret: 'password', //Only necessary for Android
+                //disableBackup:true,  //Only for Android(optional)
+            //     localizedFallbackTitle: 'Use Pin', //Only for iOS
+            //     localizedReason: 'באמצעות טביעת אצבע' //Only for iOS
+             })
             .then((result: any) => {
                 if (result){
-                    console.log(result);
-                    this.storage.get('fingerAuth').then((val) => {
-                        if(val.status){
-                            this.form.login.username.value = val.username;
-                            this.form.login.password.value = val.password;
-                            this.formSubmit();
-                        }
+                     this.storage.get('fingerAuth').then((val) => {
+                         if(val.status){
+                             this.form.login.username.value = val.username;
+                             this.form.login.password.value = val.password;
+                             this.formSubmit();
+                         }
 
-                    });
+                     });
 
                 }
             })
-            .catch((error: any) => console.log(error));
+            .catch((error: any) => {
+                console.log(JSON.stringify(error));
+            });
     }
 
     validate(response) {
@@ -218,7 +225,7 @@ export class LoginPage {
 
     ionViewWillEnter() {
         this.api.pageName = 'LoginPage';
-        $('.back-btn').hide();
+        $('.footerMenu, .back-btn, .link-banner').hide();
     }
 
 }

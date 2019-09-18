@@ -25,7 +25,6 @@ export class SelectPage {
 
     this.data = this.navParams.get('data');
     this.addOption();
-    let that = this;
     //setTimeout(function(){
     //   that.page++;
     //   that.addOption();

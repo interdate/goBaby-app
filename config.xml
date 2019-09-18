@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.interdate.gobaby" version="1.3.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.interdate.gobaby" version="1.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>GoBaby</name>
     <description>GoBaby</description>
     <author email="contact@interdate-ltd.co.il" href="http://interdate-ltd.co.il/en">Interdate Team</author>
@@ -111,10 +111,5 @@
     <plugin name="cordova-plugin-market" spec="^1.2.0" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
-    <plugin name="cordova-plugin-fingerprint-aio" spec="~1.7.0" />
-    <plugin name="phonegap-plugin-push" spec="^2.2.3">
-        <variable name="SENDER_ID" value="778112311036" />
-        <variable name="FCM_VERSION" value="11.6.2" />
-    </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="~3.0.0" />
 </widget>

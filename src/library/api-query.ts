@@ -5,6 +5,7 @@ import {Storage} from "@ionic/storage";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Geolocation} from "@ionic-native/geolocation";
 import {Keyboard} from "@ionic-native/keyboard";
+import {LoginPage} from "../pages/login/login";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ApiQuery {
     public response: any;
     public username: any;
     public password: any;
-    public status: any = '';
+    public status: any = '';s
     public back: any = false;
     public storageRes: any;
     public isPaying: any;
@@ -56,8 +57,12 @@ export class ApiQuery {
 
     sendPhoneId(idPhone) {
         let data = JSON.stringify({gcmDeviceId: idPhone});
-        let os = (this.plt.is('IOS')) ? 'iOS' : 'Android';
+        let os = (this.plt.is('ios')) ? 'iOS' : 'Android';
         this.http.post(this.url + '/user/deviceId/OS:' + os, data, this.setHeaders(true)).subscribe(data => {
+            console.log(data);
+        }, err => {
+            console.log('Error ' + JSON.stringify(data));
+
         });
     }
 

@@ -65,10 +65,10 @@
     </div>
 
     <div *ngIf="new_user" class="login-btn">
-        <button color="danger" (click)=onHomePage() ion-button block>סיום הרשמה</button>
+        <button padding color="danger" (click)=onHomePage() ion-button block>סיום הרשמה</button>
     </div>
     <div *ngIf="!new_user" class="login-btn">
-        <button color="danger" (click)=onHomePage() ion-button block>סיום עריכה</button>
+        <button padding color="danger" (click)=onHomePage() ion-button block>סיום עריכה</button>
     </div>
     <div class="description" *ngIf="photos?.length >= 1 ">
         <div #desk>{{safeHtml(desk)}}</div>

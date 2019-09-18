@@ -46,11 +46,17 @@ export class Page {
     );
   }
 
-  ionViewWillEnter() {
-  }
+    ionViewWillEnter() {
+        this.api.pageName = 'PagePage';
+        $('.back-btn').show();
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad Page');
-  }
+    ionViewWillLeave() {
+        $('.back-btn').hide();
+    }
+
+    ionViewDidLoad() {
+        $('.back-btn').show();
+    }
 
 }

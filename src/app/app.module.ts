@@ -21,6 +21,7 @@ import {ChangePhotosPageModule} from "../pages/change-photos/change-photos.modul
 import {AdvancedsearchPageModule} from "../pages/advancedsearch/advancedsearch.module";
 import {Geolocation} from "@ionic-native/geolocation";
 import {SettingsPageModule} from "../pages/settings/settings.module";
+import {SearchPageModule} from "../pages/search/search.module";
 import {SubscriptionPageModule} from "../pages/subscription/subscription.module";
 import {AdvancedSearchResultPageModule} from "../pages/advanced-search-result/advanced-search-result.module";
 import {Keyboard} from "@ionic-native/keyboard";
@@ -30,6 +31,14 @@ import {AppVersion} from "@ionic-native/app-version";
 import {FingerprintAIO} from "@ionic-native/fingerprint-aio";
 import {SelectPageModule} from "../pages/select/select.module";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {InAppPurchase} from "@ionic-native/in-app-purchase";
+import {ArenaPageModule} from "../pages/arena/arena.module";
+import {InboxPageModule} from "../pages/inbox/inbox.module";
+import {NotificationsPageModule} from "../pages/notifications/notifications.module";
+import {FaqPageModule} from "../pages/faq/faq.module";
+import {ContactUsPageModule} from "../pages/contact-us/contact-us.module";
+import {FreezeAccountPageModule} from "../pages/freeze-account/freeze-account.module";
+import {ChangePasswordPageModule} from "../pages/change-password/change-password.module";
 
 
 @NgModule({
@@ -52,11 +61,19 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
         RegisterPageModule,
         PageModule,
         SelectPageModule,
+        ArenaPageModule,
+        InboxPageModule,
+        NotificationsPageModule,
         ChangePhotosPageModule,
         AdvancedsearchPageModule,
+        FaqPageModule,
         AdvancedSearchResultPageModule,
         SettingsPageModule,
+        SearchPageModule,
+        FreezeAccountPageModule,
+        ContactUsPageModule,
         SubscriptionPageModule,
+        ChangePasswordPageModule,
         AdminMessagesPageModule
     ],
     bootstrap: [IonicApp],
@@ -73,6 +90,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
         StatusBar,
         SplashScreen,
         Device,
+        InAppPurchase,
         Geolocation,
         ImagePicker,
         InAppBrowser,

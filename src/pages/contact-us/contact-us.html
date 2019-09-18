@@ -14,9 +14,6 @@
 
 
 <ion-content padding>
-    <div (click)="back()" class="back-btn">
-        <ion-icon name="ios-arrow-back"></ion-icon>
-    </div>
         <div *ngIf="!logged_in">
             <ion-input [(ngModel)]="form.form.email.value"
                        placeholder="{{ form.form.email.label }}" type="email"></ion-input>

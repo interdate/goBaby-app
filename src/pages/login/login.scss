@@ -22,7 +22,7 @@ page-login {
   .bg-image {
     background: url(../assets/img/login.png);
     background-size: 100%;
-    background-position: top;
+    background-position: center;
     background-repeat: no-repeat;
     background-color: #fff;
   }
@@ -81,8 +81,14 @@ page-login {
   }
 
   @media (max-width: 320px) {
+    .bg-image {
+      background-position: 0 -45px;
+    }
     button .button-inner {
       font-size: 0.8em;
+    }
+    .fields.list-ios {
+      margin-bottom: 0;
     }
   }
 

@@ -108,21 +108,22 @@ export class AdvancedSearchResultPage {
 
     block(user, bool) {
 
-        let toast;
+        let toast, url, message;
 
         if (bool == true) {
             user.isBlackListed = true;
 
-            var url = this.api.url + '/user/favorites/' + user.id + '/delete';
+            url = this.api.url + '/user/favorites/' + user.id + '/delete';
+            message = '';
         }
 
         if (bool == false) {
 
             user.isBlackListed = false;
 
-            var url = this.api.url + '/user/blacklist/' + user.id + '/delete';
+            url = this.api.url + '/user/blacklist/' + user.id + '/delete';
 
-            var message = 'The user has been removed from your black list';
+            message = 'The user has been removed from your black list';
 
         }
 

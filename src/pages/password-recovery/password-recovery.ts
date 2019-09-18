@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ApiQuery} from '../../library/api-query';
 import {Http} from '@angular/http';
+import * as $ from 'jquery';
 
 /**
  * Generated class for the PasswordRecoveryPage page.
@@ -63,12 +64,16 @@ export class PasswordRecoveryPage {
         }
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad PasswordRecoveryPage');
-    }
 
     ionViewWillEnter() {
         this.api.pageName = 'PasswordRecoveryPage';
     }
 
+    ionViewWillLeave() {
+        $('.back-btn').hide();
+    }
+
+    ionViewDidLoad() {
+        $('.back-btn').show();
+    }
 }

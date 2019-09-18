@@ -25,9 +25,8 @@
                   <div class="name">{{ user.user.nickName }}</div>
                   <div class="date">{{ user.recentMessage.date }}</div>
                 </ion-card-title>
-                <div class="message">
-                <p>
-                  {{ user.recentMessage.text }}
+                <div class="message" >
+                <p [innerHTML]="user.recentMessage.text">
                 </p>
                   <div class="counter" *ngIf="user.newMessagesCount > 0" >{{ user.newMessagesCount }}</div>
                 </div>

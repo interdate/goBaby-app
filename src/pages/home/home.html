@@ -35,13 +35,13 @@
                 <div *ngIf="user.isOnline == '1'" class="online"></div>
                 <div *ngIf="user.isNew == '1'" class="new-user"></div>
                 <div *ngIf="user.isPaying == '1'" class="paying"></div>
-                <div (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + user.photo + ')'}"
+                <div tappable (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + user.photo + ')'}"
                      class="avatar"></div>
 
                 <!-- <div *ngIf="user.photo != '/images/no_photo_2.jpg' && user.photo != '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + user.photo + ')'}"
                      class="avatar"></div> -->
                 <div class="wrap">
-                    <ion-card-title (click)="itemTapped(user)">
+                    <ion-card-title tappable (click)="itemTapped(user)">
                         <div class="row">
                             <span class="name" [ngClass]="{'long-name': user.userNick?.length >= 12 }">{{user.userNick}},</span>
                             <span class="age">{{user.age}}</span>
@@ -52,7 +52,7 @@
                         </div>
                     </ion-card-title>
                     <ul class="profile-btn">
-                        <div class="btn" (click)=toDialog(user)>
+                        <div tappable class="btn" (click)=toDialog(user)>
                             <li id="mobmsg"></li>
                             <div>{{texts.message}}</div>
                         </div>

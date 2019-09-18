@@ -5,6 +5,7 @@ import {Http} from '@angular/http';
 /*
 import { HTTP } from '@ionic-native/http';*/
 import {Storage} from '@ionic/storage';
+import * as $ from "jquery";
 
 /**
  * Generated class for the ContactUsPage page.
@@ -108,6 +109,14 @@ export class ContactUsPage {
 
     ionViewWillEnter() {
         this.api.pageName = 'ContactUsPage';
+    }
+
+    ionViewWillLeave() {
+        $('.back-btn').hide();
+    }
+
+    ionViewDidLoad() {
+        $('.back-btn').show();
     }
 
 }

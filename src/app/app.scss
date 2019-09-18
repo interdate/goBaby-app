@@ -28,9 +28,14 @@
 #menuToggle {
   position: absolute;
   right: 16px;
+  top: 22px;
   background-color: #e5399b;
   padding: 0 6px;
   border-radius: 4px;
+}
+
+.bar-buttons-ios {
+  margin-top: 5.7%;
 }
 
 .social {
@@ -39,6 +44,7 @@
       transform: scale(1.2);
     }
   }
+
   display: flex;
   margin-top: 20px;
   justify-content: space-around;
@@ -510,9 +516,14 @@ ion-header button {
   margin: auto;
   // padding-top: 18px;
   display: block;
+
   img {
     max-height: 50px;
   }
+}
+
+.toolbar-content-ios .logo img {
+  max-height: 40px;
 }
 
 .footer-menu ul li.more-btn.menu-right {
@@ -798,6 +809,11 @@ button.item-ios:not([detail-none]) .item-inner {
   right: 0;
 }
 
+
+.bar-buttons-ios{
+  margin-top: 8px;
+}
+
 .messageNotify ion-icon {
   float: left;
   padding: 5px 10px;
@@ -874,11 +890,11 @@ button.item-ios:not([detail-none]) .item-inner {
   display: block;
 }
 
-/*
+
 ion-header .toolbar-ios {
-  padding-top: 18px;
+  background-color: #202635
 }
-*/
+
 
 ion-menu ion-list.list {
   padding-bottom: 58px;
@@ -920,6 +936,22 @@ ion-footer.footer-ios::before {
 
 @media (max-width: 320px) {
 
+  .usr_profile.item-ios {
+      padding-left: 0;
+      padding-right: 0;
+  }
+
+  .usr_profile .avatar{
+    height: 120px !important;
+  }
+
+  .usr_profile {
+    .item-ios.item-block .item-inner {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
   .ios ion-menu .menu-inner {
     top: 69px;
   }
@@ -930,5 +962,5 @@ ion-footer.footer-ios::before {
 }
 
 ion-content .padding-bottom {
-  padding-bottom: 40px !important;
+  padding-bottom: 58px !important;
 }

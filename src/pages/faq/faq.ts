@@ -42,12 +42,16 @@ export class FaqPage {
         });
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad FaqPage');
-    }
-
     ionViewWillEnter() {
         this.api.pageName = 'FaqPage';
+    }
+
+    ionViewWillLeave() {
+        $('.back-btn').hide();
+    }
+
+    ionViewDidLoad() {
+        $('.back-btn').show();
     }
 
 }

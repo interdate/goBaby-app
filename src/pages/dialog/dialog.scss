@@ -10,9 +10,9 @@ page-dialog {
     z-index: 99999;
   }
 
-  .admin-messages button.button-default{
-    border-color: #ec649f7a;
-    background: #ec649f;
+  .admin-messages button.button-default {
+    border-color: #e5399b;
+    background: #e5399b;
     color: #fff;
     /* text-align: center; */
     display: block;
@@ -20,7 +20,10 @@ page-dialog {
     width: 70%;
   }
 
-  .duration-bar { position: relative; }
+  .duration-bar {
+    position: relative;
+  }
+
   .duration-bar .runner {
     position: absolute;
     display: block;
@@ -39,19 +42,23 @@ page-dialog {
     top: -3px;
   }
 
+  button.button-ios.play-button{
+    font-size: 1.2rem;
+  }
+
   .button.record-b {
     width: 2.8em;
   }
 
-  button.play-button ion-icon[name=play], button.play-button ion-icon[name=pause]{
+  button.play-button ion-icon[name=play], button.play-button ion-icon[name=pause] {
     color: #000000;
     //padding: 0 0.45em;
-    }
+  }
 
-  ion-icon[name=radio-button-on]{
+  ion-icon[name=radio-button-on] {
     color: red;
     height: 15px;
-   // padding: 0 0.32em;
+    // padding: 0 0.32em;
   }
 
 
@@ -89,6 +96,7 @@ page-dialog {
     padding: 0;
     position: relative;
   }
+
   .date {
     text-align: center;
     font-size: 10px;
@@ -115,10 +123,13 @@ page-dialog {
   }
 
   .v-ios-icon {
-    font-size: 1.4rem;
+    font-size: 3rem;
     position: absolute;
-    top: 3px;
-    left: 8px;
+    top: -8px;
+    left: 0px;
+  }
+  .icon-ios-danger{
+    color: #ffffff;
   }
 
   .record-b {
@@ -132,6 +143,11 @@ page-dialog {
     height: 55px;
     float: left;
   }
+
+  /*ion-textarea.input-ios {
+    width: 75%;
+  }*/
+
   .send-msg {
     /*float: right;*/
     float: left;
@@ -186,11 +202,21 @@ page-dialog {
     background-color: rgb(236, 100, 159);
   }
 
-  .messages {margin-bottom: 65px}
+  .messages {
+    margin-bottom: 65px
+  }
 
-  .grid{padding-bottom: 12px}
-  .status {max-width: 25%;}
-  .text {max-width:75%;}
+  .grid {
+    padding-bottom: 12px
+  }
+
+  .status {
+    max-width: 25%;
+  }
+
+  .text {
+    max-width: 75%;
+  }
 
   .item-md ion-avatar[item-left], .item-md ion-thumbnail[item-left],
   .item-ios ion-avatar[item-left], .item-ios ion-thumbnail[item-left] {

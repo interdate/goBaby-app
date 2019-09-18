@@ -44,7 +44,7 @@
         </div>
         <div padding-top padding-left padding-right>
     <span *ngIf="fingerAuth">
-          <button color="primary" class="btn" (click)="fingerAuthentication(true)" ion-button default>כניסה לגובייבי<br> באמצעות טביעת אצבע</button>
+          <button color="primary" class="btn" (click)="fingerAuthentication()" ion-button default>כניסה לגובייבי<br> באמצעות טביעת אצבע</button>
     </span>
             <button *ngIf="!fingerAuth" color="primary" class="btn full" (click)="onPasswordRecoveryPage()" ion-button default>{{
                 form.login.forgot_password }}
