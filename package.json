@@ -55,7 +55,7 @@
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-inapppurchase": "^1.2.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
-    "cordova-plugin-ionic-webview": "^1.2.1",
+    "cordova-plugin-ionic-webview": "^2.2.0",
     "cordova-plugin-market": "^1.2.0",
     "cordova-plugin-media": "^5.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
